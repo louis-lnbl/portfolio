@@ -21,10 +21,6 @@ Le projet sur lequel nous avons travaillé, intitulé **Smart Robot**, visait à
 
 - **Conception et implémentation d’algorithmes** de recherche et de parcours (arbre, graphe, plus court chemin).  
 - **Programmation modulaire en langage C** et structuration du code selon les bonnes pratiques logicielles.  
-- **Utilisation d’outils professionnels** :  
-  - *Git* pour la gestion de versions,  
-  - *LaTeX* pour la rédaction scientifique,  
-  - *Doxygen* pour la documentation technique.  
 - **Mise en œuvre de solutions électroniques** : capteurs, moteurs, contrôle et autonomie du robot.  
 - **Travail en équipe**, communication technique et respect d’un cahier des charges.
 
