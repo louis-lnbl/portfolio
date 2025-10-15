@@ -7,19 +7,19 @@ Ces travaux reflètent à la fois l’apprentissage de nouveaux langages, la ma�
 
 ## Ces projets avaient pour but de :
 
--  **Développer mes compétences en programmation**, à travers l’apprentissage et la pratique de plusieurs langages :
+- **Développer mes compétences en programmation**, à travers l’apprentissage et la pratique de plusieurs langages :
   - C  
   - Python  
   - Java  
 
--  **Découvrir et maîtriser divers outils** essentiels au travail collaboratif et à la production de documents techniques :
+- **Découvrir et maîtriser divers outils** essentiels au travail collaboratif et à la production de documents techniques :
   - Git & GitLab
   - LaTeX  
   - Jupyter Notebook  
 
--   **Mettre en pratique les connaissances théoriques** acquises en cours, notamment en algorithmique, en électronique, en capteurs, en analyse numérique et en programmation orientée objet.
+- **Mettre en pratique les connaissances théoriques** acquises en cours, notamment en algorithmique, en électronique, en capteurs, en analyse numérique et en programmation orientée objet.
 
--   **Renforcer mon esprit critique** face à la résolution d'un problème.
+- **Renforcer mon esprit critique** face à la résolution d'un problème.
 
 ---
 
