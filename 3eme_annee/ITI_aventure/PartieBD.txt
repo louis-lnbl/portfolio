@@ -1,0 +1,7 @@
+Monde(Nom)
+Porte(Nom, Etat, Nom_monde)
+PiedDeBiche(Nom, EstDeplaceable, Lieu)
+JoueurHumain(Nom, PtVie, PtForce, Nom_monde, Nom_pièce)
+Pièce(Nom, nom_pièce)
+JoueurPossèdePiedDeBiche(nom_pied,nom_joueur)
+PièceContientPiedDeBiche(nom_pied, nom_pièce)

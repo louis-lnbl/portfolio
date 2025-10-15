@@ -1,0 +1,47 @@
+@startuml
+class LecteurDescription {}
+
+
+class ITIAventureFactory {
++créerMonde() : Monde
++créerPorte() : Porte
++créerPièce() : Pièce
++créerClé() : Clé
++créerSerrure() : Serrure
++créerMonstre() : Monstre
+
+}
+
+class ITISpaceOperaFactory {}
+
+ITIAventureFactory <|-- ITISpaceOperaFactory
+
+class Monde {}
+class Monstre {}
+class Porte {}
+class Pièce {}
+class Serrure {}
+class Clé {}
+
+class Galaxie {}
+class Alien {}
+class VaisseauSpatial {}
+class Teleporteur {}
+class Badge {}
+class LecteurBadge {}
+
+Monde <|-- Galaxie
+Monstre <|-- Alien
+Porte <|-- Teleporteur
+Pièce <|-- VaisseauSpatial
+Clé <|-- Badge
+Serrure <|-- LecteurBadge
+
+
+LecteurDescription --> Monde
+LecteurDescription --> ITIAventureFactory
+LecteurDescription --> Monstre
+LecteurDescription --> Porte
+LecteurDescription --> Pièce
+LecteurDescription --> Clé
+LecteurDescription --> Serrure

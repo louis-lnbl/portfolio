@@ -1,0 +1,144 @@
+options {
+  LOOKAHEAD = 1;
+  CHOICE_AMBIGUITY_CHECK = 2;
+  OTHER_AMBIGUITY_CHECK = 1;
+  STATIC = false;
+  DEBUG_PARSER = false;
+  DEBUG_LOOKAHEAD = false;
+  DEBUG_TOKEN_MANAGER = false;
+  ERROR_REPORTING = true;
+  JAVA_UNICODE_ESCAPE = false;
+  UNICODE_INPUT = false;
+  IGNORE_CASE = true;
+  USER_TOKEN_MANAGER = false;
+  USER_CHAR_STREAM = false;
+  BUILD_PARSER = true;
+  BUILD_TOKEN_MANAGER = true;
+  SANITY_CHECK = true;
+  FORCE_LA_CHECK = false;
+}
+
+PARSER_BEGIN(AnalyseurSyntaxique)
+
+// Import tous les package necessaires 
+
+package fr.insarouen.iti.prog.compilation.interpreteur.analyseurs;
+
+import java.util.ArrayList;
+
+import java.util.List;
+import java.util.Set;
+
+import fr.insarouen.iti.prog.compilation.interpreteur.arbreSyntaxiqueAbstrait.Config;
+import fr.insarouen.iti.prog.compilation.interpreteur.arbreSyntaxiqueAbstrait.Affectation;
+import fr.insarouen.iti.prog.compilation.interpreteur.arbreSyntaxiqueAbstrait.AppelFonction;
+import fr.insarouen.iti.prog.compilation.interpreteur.arbreSyntaxiqueAbstrait.Chaine;
+import fr.insarouen.iti.prog.compilation.interpreteur.arbreSyntaxiqueAbstrait.Constante;
+import fr.insarouen.iti.prog.compilation.interpreteur.arbreSyntaxiqueAbstrait.Parametre;
+import fr.insarouen.iti.prog.compilation.interpreteur.arbreSyntaxiqueAbstrait.Parametres;
+import fr.insarouen.iti.prog.compilation.interpreteur.arbreSyntaxiqueAbstrait.Id;
+import fr.insarouen.iti.prog.compilation.interpreteur.arbreSyntaxiqueAbstrait.NbEntier;
+
+
+public class AnalyseurSyntaxique {
+}
+
+PARSER_END(AnalyseurSyntaxique)
+
+SKIP : {
+//liste des caract`eres qui seront ´ecart´es par l’analyseur lexical
+" "		//caractère ESPACE
+| "\n"
+| "\r"	//retour chariot
+| "\t"	//tabulation
+|	"\f"	//fin de fichier
+}
+
+TOKEN : {
+    <PARAG:"(">
+    | <PARAD:")">
+    | <AFF:"=">
+    | <VIRGULE:",">
+    | <IDF:"monde" | "piece" | "serrure" | "porte" | "pied_de_biche" | "cle" | "monstre" | "humain" |
+    "cdf_vivant_dans_piece" | "cdf_vivant_possede" | "cdf_conjonction">
+    | <CONST:"SUCCES" | "ECHEC" | "ENCOURS">
+    | <#CHIFFRE:["0"-"9"]>
+    | <NB_ENTIER:(<CHIFFRE>)+>
+    | <#LETTRE:["a"-"z","A"-"Z","0"-"9","!","\"","#","%","&","/",":",";",
+            "<",">","?","@","^","_","`","{","|","}","~"]>
+    | <CHAINE:"\""(<LETTRE>)+"\"">
+    | <ID:["a"-"z","_"](["a"-"z","_","0"-"9"])*>
+    
+}
+
+Config config() :
+{ Affectation res, op;
+List<Affectation> lstAff = new ArrayList<Affectation>();
+}
+{
+  res = affectation(){
+    lstAff.add(res);
+  }(op = affectation() {
+      lstAff.add(op);
+  })*
+  {return new Config(lstAff);}
+
+}
+
+
+Affectation affectation() :
+{
+  Token id;
+  AppelFonction appel;
+}
+{
+  id = <ID> <AFF> appel=appelFonction()
+  {return new Affectation(new Id(id.image), appel);}
+}
+
+AppelFonction appelFonction() :
+{
+  Token idf;
+  Parametres params;
+}
+{
+  idf = <IDF> <PARAG> params = parametres() <PARAD>
+  {return new AppelFonction(idf.image, params);}
+}
+
+Parametres parametres() :
+{ 
+  Parametre res, op;
+  List<Parametre> lstParam = new ArrayList<Parametre>();
+}
+{
+  res = parametre(){
+    lstParam.add(res);
+  }(<VIRGULE> op = parametre() {
+      lstParam.add(op);
+  })*
+  {return new Parametres(lstParam);}
+}
+
+Parametre parametre() :
+{
+  Token param;
+  AppelFonction appel;
+}
+{
+  param = <ID> {
+    return new Id(param.image);
+  }
+  | param = <CHAINE> {
+    return new Chaine(param.image);
+  }
+  | param = <NB_ENTIER> {
+    return new NbEntier(param.image);
+  }
+  | appel = appelFonction() {
+    return appel;
+  }
+  | param = <CONST> {
+    return new Constante(param.image);
+  }
+}
