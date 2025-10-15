@@ -24,7 +24,7 @@ Le projet sur lequel nous avons travaillé, intitulé **ITInéraire**, visait à
 - **Meilleur compréhension du filtre de Kalman** bien que nous n'ayons pas réussi à l'implémenter de manière efficace.  
 - **Travail en équipe**, communication technique et respect d’un cahier des charges.
 
-**Attention:** le code sur l'utilisation des capteur nous a été fournis au début du projet. Il nous était demandé de le modifier afin de l'intégrer au projet.
+**Attention:** le code sur l'utilisation des capteurs nous a été fournis au début du projet. Il nous était demandé de le modifier afin de l'intégrer au projet.
 
 ---
 
