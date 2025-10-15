@@ -5,7 +5,7 @@
 - Renforcer nos compétences en analyse numérique en nous confrontant à une problématique nouvelle
 - Développer un esprit critique quand aux résultats obtenus
 
-Retrouver le rapport complet dans le fichier jupyter notebook
+Retrouvez le rapport complet dans le fichier jupyter notebook
 
 ---
 
