@@ -5,6 +5,8 @@
 - Renforcer nos compétences en analyse numérique en nous confrontant à une problématique nouvelle
 - Développer un esprit critique quand aux résultats obtenus
 
+Retrouver le rapport complet dans le fichier jupyter notebook
+
 ---
 
 > *Année universitaire : 2024 – 2025*  
