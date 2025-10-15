@@ -1,0 +1,8 @@
+class Pt:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
+def up(pt):
+    pt.x = 8

@@ -1,0 +1,31 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\setlength{\footskip}{40pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[L]{\includegraphics[height=1.2cm]{logo_INSA.jpg}}
+\fancyfoot[R]{\thepage}
+
+% Appliquer aussi ce style aux pages 'plain' (par défaut après \chapter)
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[L]{\includegraphics[height=1.2cm]{logo_INSA.jpg}}
+  \fancyfoot[R]{\thepage}
+}
+
+\title{Développement d’un système d’estimation de trajectoire pour activités sportives}
+\author{BAVOUX Thomas, BELLILI Fouad, JOUANNEAU Maxime, \\ LENOBLE Louis, ETIENNE Maxime \\
+        Encadrants :\\ M.Condat \\ M.Vaugeois \\ Mme.Rogozan }
+\date{\today}

@@ -1,0 +1,189 @@
+\chapter{Présentation des capteurs et traitement des signaux (Partie TP)}
+
+\section{Présentation des capteurs à disposition}
+
+\subsection{Capteur GNSS (TEL0157)}
+
+\subsubsection*{Description et fonctionnement}
+
+Le module GNSS TEL0157 de DFRobot est un capteur de positionnement géographique compatible avec les constellations GPS, GALILEO, GLONASS et BEIDOU. Il se connecte à une Raspberry Pi 4 via l’interface I2C, permettant une communication simple et rapide.
+
+Ce capteur émet des trames au format NMEA, un protocole standardisé utilisé dans les systèmes de navigation. Chaque trame débute par un identifiant (comme \texttt{GGA} ou \texttt{RMC}) et contient des données telles que la latitude, la longitude, l’altitude, l’heure ou encore la qualité de réception.
+
+Dans le cadre du TP, ces trames ont été traitées avec des scripts Python. Les coordonnées extraites ont été affichées en temps réel sur un écran LCD 1602 et enregistrées dans des fichiers CSV, permettant un post-traitement efficace et une visualisation du trajet sur une carte.
+
+\vspace{1em}
+\subsubsection*{Calcul de distance}
+
+Le calcul de la distance entre deux points GNSS a été réalisé en utilisant la formule de la distance orthodromique, qui tient compte de la courbure de la Terre. Les coordonnées, exprimées en degrés décimaux, ont été converties en radians pour appliquer la formule suivante :
+
+\[
+D = R \cdot \arccos\left( \sin(\varphi_A) \cdot \sin(\varphi_B) + \cos(\varphi_A) \cdot \cos(\varphi_B) \cdot \cos(\lambda_B - \lambda_A) \right)
+\]
+
+où $R$ est le rayon moyen de la Terre (environ 6371 km), $\varphi$ la latitude et $\lambda$ la longitude.
+
+Cette méthode a été implémentée dans le script \texttt{get\_distance.py}, qui permet de calculer la distance entre la position courante du capteur et un point d’intérêt, comme l’entrée d’un bâtiment ou un point de repère extérieur. Les tests effectués avec des coordonnées réelles (New York, Paris, Rouen, etc.) ont permis de vérifier la cohérence des résultats obtenus.
+
+Une expérience a été menée pour se déplacer jusqu’à un point connu, l’arche située à proximité du bâtiment Dumont D’Urville (coordonnées : 49.384210, 1.069372). La distance affichée diminuait progressivement à mesure que nous nous approchions du point cible, avec une précision acceptable compte tenu des limitations du module. Cette expérience a confirmé l’utilité du capteur pour des calculs de distances en vol d’oiseau dans un contexte réel.
+
+
+\vspace{1em}
+\subsubsection*{Avantages et inconvénients}
+
+Le principal atout du TEL0157 est sa compatibilité multi-constellation, qui assure une bonne couverture satellite et une meilleure stabilité des données, surtout en environnement dégagé. Sa connexion I2C le rend facilement intégrable à des systèmes embarqués comme la Raspberry Pi.
+
+Cependant, ce capteur présente des limites. En intérieur ou en présence d'obstacles (bâtiments, végétation), la réception des signaux peut devenir instable, voire inexistante. De plus, les mouvements rapides dégradent la qualité des mesures, rendant certaines positions incohérentes ou bruitées.
+
+\vspace{1em}
+\subsubsection*{Sources de bruit et défauts techniques}
+
+Plusieurs phénomènes affectent la précision des mesures GNSS :
+
+\begin{itemize}
+    \item \textbf{Propagation atmosphérique} : les signaux traversent l’ionosphère et la troposphère, ce qui introduit des erreurs de délai.
+    \item \textbf{Effet multitrajet} : le signal peut être réfléchi par des surfaces (murs, vitres...), créant des interférences.
+    \item \textbf{Perturbations électroniques} : un câblage inadéquat ou la proximité d’autres composants électroniques peut générer du bruit.
+\end{itemize}
+
+Ces facteurs sont à prendre en compte lors de l’analyse des données, surtout dans un contexte de mesure fine.
+
+\vspace{1em}
+\subsubsection*{Calibration effectuée}
+
+Afin de pouvoir exploiter les données du GPS, nous avons utilisé le protocole I2C. Pour cela, nous avons  utilisé la commande \texttt{i2cdetect} afin de trouver les périphériques connectés à la carte. Ensuite, un programme s'occupe de lire la trame NMEA afin de récupérer et convertir les coordonnées au format \textbf{Degrés Décimaux (DD)}. 
+
+Pour calibrer le système nous avons dans un premier temps récupéré des données via ce capteur GPS mais aussi via un téléphone (considéré comme parfait). Ensuite, pour connaitre l'erreur statique de ce capteur, nous avons étudié la différence moyenne entre nos données et les références pour la latitude mais aussi pour la longitude.
+
+Afin de corriger cette erreur, nous soustrayons le résultat obtenu à l'ensemble des futures données. 
+
+\vspace{1em}
+\subsubsection*{Choix des paramètres d’acquisition}
+
+En ce qui concerne le GPS, nous ne pouvons pas configurer les paramètres d'acqusition. Par défaut le système effectue une acquisition par seconde. Cependant, cela n'empêche pas d'assurer un bon compromis entre précision temporelle et volume de données. En effet, au vu de l'utilité de ce capteur (pour de la marche), une acquisition par seconde reste satisfaisant. 
+
+Ensuite, nous avons choisit d'utiliser le format de coordonnées \textbf{Degrés Décimaux (DD)}, car il est plus adapté aux calculs de distance et à la cartographie. 
+
+Finalement, le format CSV a été utilisé pour l’enregistrement, facilitant ainsi l’analyse postérieure des données.
+
+\vspace{1em}
+\subsubsection*{Filtrage des signaux bruts}
+
+Un traitement logiciel a été mis en place pour filtrer les données :
+
+\begin{itemize}
+    \item Seules les trames NMEA valides ont été conservées.
+    \item Les points aberrants (valeurs nulles, sauts de position) ont été écartés. Nous vous expliquerons plus en détail notre méthode dans la partie sur le traitement des données.
+\end{itemize}
+
+Les données ainsi nettoyées peuvent être visualisées sur carte via \texttt{folium}. Dans le cadre du TP, lsssssa trajectoire obtenue est globalement fidèle au parcours réel, bien que quelques imprécisions subsistent par endroits.
+
+\subsection{Accéléromètre et Gyroscope (MinIMU-9 v6)}
+
+\subsubsection*{Description et fonctionnement}
+
+Le capteur MinIMU-9 v6 est une centrale inertielle miniature intégrant deux composants : un accéléromètre et un gyroscope \textbf{LSM6DSO}, ainsi qu’un magnétomètre \textbf{LIS3MDL}. Ces deux éléments communiquent indépendamment via le bus I2C et possèdent donc des adresses distinctes. Dans le cadre de notre TP, nous avons principalement travaillé avec le LSM6DSO, responsable de la mesure de l’accélération linéaire et de la vitesse angulaire.
+
+La communication se fait en lisant et écrivant des valeurs dans une mémoire interne de 256 registres. Chaque registre peut être dédié à la configuration ou à l’acquisition des données. L’identification initiale des périphériques a été réalisée à l’aide du registre WHO\_AM\_I, permettant de confirmer la connexion des capteurs à la Raspberry Pi via l’outil \texttt{i2cdetect} et \texttt{i2cget}.
+
+\vspace{1em}
+\subsubsection*{Avantages et inconvénients}
+
+Le MinIMU-9 v6 se distingue par son intégration compacte et sa richesse fonctionnelle. Il permet d’obtenir en temps réel des mesures pertinentes sur les mouvements et rotations de l’objet auquel il est fixé. Grâce à sa double interface I2C, il est possible d’interroger séparément l’accéléromètre/gyroscope et le magnétomètre.
+
+En revanche, ce capteur nécessite une configuration logicielle rigoureuse pour fonctionner correctement. En effet, une mauvaise initialisation des registres peut conduire à une mauvaise acquistion voir un disfonctionnement du système. De plus, ce sont des capteurs très sensibles. Ainsi, le bruit et les erreurs statiques peuvent être relativement élevés, ce qui peut conduire à une mauvaise interpretation des données.
+
+\vspace{1em}
+\subsubsection*{Sources de bruit et défauts techniques}
+
+De manière générale, les mesures issues de l'IMU sont impactées par l'environnement dans lequel le capteur est utilisé. En effet, un environnement incluant des vibrations de la plaque d’essai peuvent fausser les données de l'accéléromètre ou le gyroscope. Dans un second temps, les environnement incluant de fortes interférences magnétiques peuvent générer des perturbations sur le magnétomètre.
+
+\vspace{1em}
+\subsubsection*{Calibration effectuée}
+
+La calibration d'un IMU est en général plutôt complexe, car il est assez rare d'avoir une référence à disposition. C'est pour cela que nous avons seulement calibré le gyroscope. Bien qu'il soit assez simple de calibrer ce composant, cela reste une étape cruciale car c'est un composant clé dans la fusion de données, en évitant toute dérive. 
+
+Pour cela, nous avons fait des acquisition avec le gyroscope de manière statique. Dans la théorie, la vitesse de rotation autour de chaque axe doit alors être nulle. En faisant la moyenne de ces acquisitions, nous avons alors pu trouver l'erreur statique de ce capteur. 
+
+\vspace{1em}
+\subsubsection*{Choix des paramètres d’acquisition}
+
+Les paramètres d’acquisition sont définis par les registres de configuration \texttt{CTRL1\_XL} (pour l’accéléromètre) et \texttt{CTRL2\_G} (pour le gyroscope). Ces registres permettent de choisir la fréquence d’échantillonnage (de 12.5 Hz à 6.66 kHz), ainsi que la plage de mesure (par exemple, ±2 g, ±4 g pour l’accélération ; ±250 dps, ±500 dps pour la vitesse angulaire).
+
+En modifiant les valeurs écrites dans ces registres, nous pouvons alors adapter le capteur à différents types de mouvements : une faible plage permet une meilleure précision pour des petits gestes, tandis qu’une grande plage est utile pour des mouvements rapides ou brusques. En ce qui concerne la fréquence d'échantillonnage, une grande fréquence permettra d'avoir une grande précision mais prendra plus de mémoire et sera plus demandeur en calculs. En revanche, une faible fréquence d'acquisition sera moins précise, mais nous donnera moins de données à traiter.
+
+Dans le cadre de notre utilisation, il parait évident que nous n'avons pas besoin d'une grande plage de mesure ainsi que d'une grande fréquence d'acquisition. En effet, à l'échelle d'un humain, nous ne ferons jamais de gestes rapides ou brusques. De plus, notre système qui s'occupe de traiter les données n'est pas d'une puissance infinie, ainsi, nous voulons traiter le moins de données possibles.
+
+Pour nous assurer que nous ne faisions pas d'erreur, nous avons tout de même fait des acquisitions statiques avec des fréquences différentes afin de déterminer si le gyroscope est plus ou moins sensible au changement de fréquence. Le résultat de notre analyse nous a permis de confirmer que cela n'avait pas d'impact.
+
+
+\vspace{1em}
+\subsubsection*{Acquisition et visualisation}
+
+Une fois le capteur correctement configuré, des mesures ont été effectuées à l’aide du script \texttt{get\_imu\_data.py}. En laissant la plaque d’essai statique, les lectures étaient stables et proches des valeurs théoriques. En déplaçant modérément la plaque, on a pu observer des variations nettes sur les axes X, Y et Z.
+
+Les acquisitions ont été enregistrées dans des fichiers CSV pour différentes configurations, puis analysées et tracées avec \texttt{plot\_imu\_data.py}.
+
+\subsection{Capteur LiDAR (RPLiDAR A1M8)}
+
+\subsubsection*{Description et fonctionnement}
+
+Le capteur RPLiDAR A1M8 est un capteur de télémétrie laser 2D capable de balayer l’environnement sur 360° dans un plan horizontal. Contrairement à un LiDAR 3D, ce modèle ne fournit qu’un balayage dans un seul plan. Il émet un faisceau laser à faible puissance qui est réfléchi par les objets environnants. Le capteur mesure le temps nécessaire au retour du faisceau pour calculer la distance, en utilisant le principe du temps de vol.
+
+Le module est relié à une Raspberry Pi 4 via un port USB, ce qui simplifie grandement son intégration. Les données sont traitées à l’aide de la bibliothèque \texttt{rplidar-roboticia}, qui permet d’interagir avec le capteur, de récupérer les mesures en temps réel, et d’afficher les résultats sous forme graphique.
+
+\vspace{1em}
+\subsubsection*{Avantages et inconvénients}
+
+Le LiDAR RPLiDAR A1M8 présente plusieurs atouts. Il permet un balayage complet sur 360°, ce qui le rend très utile pour cartographier un espace ou détecter des objets dans toutes les directions autour de lui. Son format compact, sa compatibilité USB et la disponibilité d’une bibliothèque Python facilitent grandement son utilisation.
+
+Cependant, ses performances restent limitées en comparaison de modèles plus avancés. D'abord, sa portée est restreinte et la résolution angulaire reste faible pour des applications de précision ou à grande distance. Ensuite, comme tout LiDAR basé sur la réflexion, la qualité de mesure peut être perturbée par des surfaces absorbantes ou trop brillantes.
+
+\vspace{1em}
+\subsubsection*{Sources de bruit et défauts techniques}
+
+Les mesures du LiDAR peuvent être perturbées par plusieurs facteurs : la réflexion dépend fortement de la nature de la surface (couleur, texture, inclinaison...), et certaines surfaces diffusent ou absorbent le faisceau laser, provoquant une perte de qualité ou une mesure erronée. Les objets en mouvement rapide ou trop fins peuvent aussi être mal détectés. De plus, des points de faible qualité sont parfois retournés par le capteur, notamment lorsqu’aucune surface n’est détectée à l’angle correspondant.
+
+\vspace{1em}
+\subsubsection*{Calibration et configuration}
+
+Aucune calibration physique n'est nécessaire. En revanche, une initialisation logicielle permet d'assurer son bon fonctionnement :
+
+\begin{itemize}
+    \item Installation du package \texttt{RPi.GPIO} et détection du port USB associé au capteur.
+    \item Définition des constantes de distance minimale et maximale dans le script \texttt{lidar.py}, en se basant sur les spécifications du constructeur.
+    \item Test de lecture via le script \texttt{single\_scan.py}, permettant d’effectuer un balayage complet à 360°.
+\end{itemize}
+
+Chaque mesure du LiDAR contient trois informations principales : l’angle (en degrés), la distance (en millimètres) et un indice de qualité. Les points sont ensuite convertis en coordonnées cartésiennes à l’aide d’une fonction de transformation polaire-plan (vue en BEV).
+
+\vspace{1em}
+\subsubsection*{Choix des paramètres d’acquisition}
+
+Bien que nous n'ayons pas eu besoin d'utiliser ce capteur durant ce projet, durant le TP nous avons pu voir que le capteur fonctionne avec une fréquence d’acquisition par défaut de 5.5 Hz et une résolution angulaire moyenne d’environ 1°. La distance minimale mesurable est de l’ordre de 150 mm, tandis que la portée maximale atteint environ 12 mètres. La précision annoncée est d’environ 1 à 2 \% de la distance mesurée, mais cela peut varier fortement selon la qualité de la réflexion.
+
+\vspace{1em}
+\subsubsection*{Filtrage et traitement des mesures}
+
+Les données issues du LiDAR peuvent être bruitées. Pour améliorer la lisibilité des nuages de points ou permettre de personnaliser l'acquisition de données, nous avons pu mettre en place plusieurs fonctions permettant de :
+
+\begin{itemize}
+    \item \textbf{Filtrer selon la qualité du point} : exclusion des mesures ayant un indice de qualité trop faible.
+    \item \textbf{Filtrer selon l'angle du LIDAR} : sélection des points compris dans un intervalle d’angles défini par l’utilisateur.
+    \item \textbf{Afficher nos mesures} : transformation des mesures (angle, distance) en coordonnées (x, y) dans un repère 2D.
+\end{itemize}
+
+
+\vspace{1em}
+\subsubsection*{Précision et validation expérimentale}
+
+Des expériences ont été réalisées pour vérifier l’exactitude des mesures. Une feuille blanche a été positionnée à exactement 25 cm devant le capteur, et les mesures collectées via le script \texttt{measure\_distance.py} ont permis d’obtenir une distance estimée très proche de la valeur réelle. L’écart-type observé sur plusieurs mesures permet de confirmer la stabilité du capteur dans des conditions idéales.
+
+Les tests ont été répétés avec d’autres matériaux (carton, métal, vêtements), montrant une dépendance nette entre la nature de la surface et la qualité du signal. Les objets foncés ou absorbants (comme les tissus noirs) génèrent des distances erronées ou incomplètes.
+
+À plus grande distance (1 mètre, 2 mètres...), les mesures restent cohérentes, mais la dispersion augmente légèrement. Pour maximiser la fiabilité des mesures, il est recommandé d’éviter les angles obliques et les surfaces absorbantes.
+
+\vspace{1em}
+\subsubsection*{Conclusion sur l’usage du LiDAR}
+
+Bien que le RPLiDAR A1M8 s’avère être un outil performant pour cartographier un espace en 2D, détecter des obstacles et estimer des distances avec une bonne précision à courte portée, son usage n'est pas adapté aux environnements ouverts ou mal éclairés. Dans le cadre de notre projet, il n'apparait donc pas comme une solution afin d'améliorer la précision de notre GPS.

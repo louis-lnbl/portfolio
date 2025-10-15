@@ -1,0 +1,47 @@
+\chapter{Fonctionnalités supplémentaires}
+
+Afin de rendre notre système d'acquisition un peu plus interactif, nous avons décidé d'y ajouter quelques fonctionnalités permettant à l'utilisateur de connaitre diverses informations liées à son parcours.
+
+\section{Calcul de distance et vitesse}
+
+Une des fonctionnalités de base est le calcul de distance. Celle-ci est calculée à partir de la somme des distances entre les points GPS que nous avons préalablement corrigés. Ensuite, nous avons calculé la vitesse moyenne liée au trajet. Il nous a suffit de diviser la distance sur le temps total.
+
+\section{Compteur de pas}
+
+Pour ajouter une fonctionnalité un peu plus complète et complexe, nous avons décidé d'implémenter un compteur de pas se fiant à deux mesures. D'abord, nous calculons le nombre de pas grâce à la distance parcourue et la vitesse moyenne. Ensuite, nous estimons le nombre de pas grâce aux valeurs d'accélération.
+
+\subsection*{Distance et vitesse}
+
+Pour calculer le nombre de pas à partir de ces données, nous avons considéré le modèle suivant : \\
+
+En notant que le pas moyen d'un homme est autour 50 à 80 cm, nous commençons par diviser la distance totale du parcours par 65 cm. Cela nous donne une première estimation du nombre de pas. Ensuite, nous considérons que le pas d'un homme varie en fonction de sa vitesse. Pour prendre en compte cette information nous avons multiplier le resultat par un coefficient résultant de la vitesse moyenne de marche d'un homme par sa vitesse moyenne durant l'acquisition. Cela nous donne la formule suivante:
+
+\begin{align*}
+\text{vitesse\_marche\_moyenne\_homme} &= 4.5 \\
+\text{pas\_distance} &= \frac{d}{0.65} \\
+\text{coef\_vitesse} &= \frac{\text{vitesse\_marche\_moyenne\_homme}}{v} \\
+\text{resultat} &= \text{pas\_distance} \times \text{coef\_vitesse}
+\end{align*}
+
+Ce compteur, bien qu'intuitivement intéressant et facile à implémenter, comporte des limites. En effet, ici nous considérons que l'utilisateur va utiliser notre système en marchant (environ 4.5 km/h), or il suffit qu'il commence à courir pour que le coef\_vitesse explose et nous donne une approximation absurde. C'est pour cela que nous combinons ce calcul avec un autre bien plus cohérent. 
+
+\subsection*{Accélération}
+
+Ce compteur de pas est implémenté à partir des pics d'accélérations de l'IMU. Plus précisément, nous commençons par calculer la norme de l'accélération détectée par l'IMU. Ensuite, nous filtrons le signal résultant grâce à un filtre passe bas de Butterworth. A partir de ces données filtrées, nous calculons un seuil donné par :
+
+\begin{align*}
+\text{moyenne} &= \text{np.mean(norme\_filtrée)} \\
+\text{std} &= \text{np.std(norme\_filtrée)} \\
+\text{seuil} &= \text{moyenne} + 1.0 \times \text{std}
+\end{align*}
+
+Maintenant, nous avons tous les outils nécessaires afin de détecter les pics représentant des pas. Cependant, une dernière caractéristique est à prendre en compte. Il peut arriver que deux valeurs d'accélérations soient très proches. Cela peut donc fausser nos résultats en laissant penser que l'utilisateur a fait deux (ou  plus) pas au lieu d'un seul. Nous établissons alors une durée minimale de 300 ms entre la détection de deux pics afin de prendre en compte un pas.
+
+\subsection*{Compteur de pas final}
+
+Maintenant que nous avons deux méthode permettant d'approximer nos valeurs de pas, nous pouvons combiner les deux en leur applicant des coefficients en fonction de la confiance que nous leur attribuons. Finalement, nous avons ce modèle :
+
+\begin{align*}
+\text{resultat} = (1 - 0.2) \times \text{pas\_imu} + 0.2 \times \text{pas\_distance\_vitesse}
+\end{align*}
+

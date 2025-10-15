@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with BasicAirData GPS Logger for Android - ver. 3.2.3 -->
+<!-- Track 3 = 20 TrackPoints + 0 Placemarks -->
+
+<!-- Track Statistics (based on Total Time | Time in Movement): -->
+<!--  Distance = 0 m -->
+<!--  Duration = 00:19 | 00:00 -->
+<!--  Altitude Gap = 0 m -->
+<!--  Max Speed = 0 km/h -->
+<!--  Avg Speed = 0,0 |  km/h -->
+<!--  Activity = steady -->
+<!--  Altitudes = Raw -->
+
+<gpx version="1.0"
+     creator="BasicAirData GPS Logger 3.2.3"
+     xmlns="http://www.topografix.com/GPX/1/0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">
+<name>GPS Logger 20250311-175248</name>
+<desc>Immobile 3</desc>
+<time>2025-03-18T14:05:49Z</time>
+<keywords>steady</keywords>
+<bounds minlat="49.38557500" minlon="1.06808667" maxlat="49.38557500" maxlon="1.06808667" />
+
+<trk>
+ <name>Tracé 20250311-175248</name>
+ <trkseg>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:48Z</time><speed>0.000</speed><sat>37</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:49Z</time><speed>0.000</speed><sat>35</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:50Z</time><speed>0.000</speed><sat>35</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:51Z</time><speed>0.000</speed><sat>35</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:52Z</time><speed>0.000</speed><sat>34</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:53Z</time><speed>0.000</speed><sat>34</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:54Z</time><speed>0.000</speed><sat>34</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:55Z</time><speed>0.000</speed><sat>34</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:56Z</time><speed>0.000</speed><sat>34</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:57Z</time><speed>0.000</speed><sat>35</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:58Z</time><speed>0.000</speed><sat>36</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:52:59Z</time><speed>0.000</speed><sat>36</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:53:00Z</time><speed>0.000</speed><sat>36</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:53:01Z</time><speed>0.000</speed><sat>36</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:53:02Z</time><speed>0.000</speed><sat>36</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:53:03Z</time><speed>0.000</speed><sat>33</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:53:04Z</time><speed>0.000</speed><sat>34</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:53:05Z</time><speed>0.000</speed><sat>35</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:53:06Z</time><speed>0.000</speed><sat>36</sat></trkpt>
+  <trkpt lat="49.38557500" lon="1.06808667"><ele>117.600</ele><time>2025-03-11T16:53:07Z</time><speed>0.000</speed><sat>35</sat></trkpt>
+ </trkseg>
+</trk>
+
+</gpx>
+ 

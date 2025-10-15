@@ -1,0 +1,20 @@
+\chapter{Conclusion}
+
+\section{Synthèse}
+
+Ce projet a permis de mettre en oeuvre un système d'estimation de trajectoire, en exploitant plusieurs capteurs embarqués pour améliorer la précision. Afin d'obtenir une estimation plus fiable de la position il nous a fallu calibrer, synchroniser et fusionner les données des capteurs. Une fois cette étape réalisée, nous avons effectué différent traitement sur ces données pour corriger et améliorer les données en se basant sur des méthodes statistiques et non empiriques. A travers ce projet, nous avons donc approfondi nos connaissances sur les capteurs, tout en apprenant à exploiter les données que nous collections.\\
+
+Le système a été testé dans différents scénarios, et les résultats ont montré une précision plutôt insatisfaisante. En effet, des difficultés ont été rencontrées lors de la fusion de données, notamment en ce qui concerne la synchronisation spatiale des données issues de l'IMU et du GNSS. Des améliorations ont été apportées pour résoudre ces problèmes, mais des axes d'amélioration restent à explorer.
+
+\section{Axes d’amélioration}
+
+Un des axes principaux d'amélioration est donc la fusion de données :  il aurait été non seulement intéressant de trouver une autre façon de garantir une bonne synchronisation des données, mais aussi d'explorer d'autres méthodes de fusion de données, telles que les filtres de Kalman étendus pour améliorer la précision de l'estimation de la position.\\
+
+Ensuite, nous pourrions nous pencher sur l'optimisation des algorithmes de traitement des données : nous pourrions sûrement améliorer les algorithmes de traitement des données pour réduire le temps de calcul et surtout améliorer la précision des résultats.\\
+
+De plus, il est évident que nous pourrions tenter d'intégrer d'autres capteurs : multiplier ou intégrer d'autres capteurs, tels qu'un autre GNSS ou bien des caméras, pourraient être une solution afin d'améliorer la précision de notre système et offrir des fonctionnalités supplémentaires.\\
+
+ En ce qui concerne la calibration des capteurs, il pourrait être intéressant de développer d'autres méthodes de calibration plus précises, notamment pour l'IMU, afin de réduire les différents types d'erreurs.\\
+
+Finalement, le développement de fonctionnalités supplémentaires pourraient aussi permettre une meilleure immersion durant l'utilisation du système par un utilisateur. Par exemple, cela pourrait être la détection d'obstacles ou la navigation en intérieur, pour rendre le système plus polyvalent et utile dans différents contextes.
+

@@ -1,0 +1,185 @@
+\chapter{Fusion de données}
+
+\section{Définition et utilité}
+
+Maintenant que nous avons réussi à configurer notre capteur GNSS et à éliminer les valeurs aberrantes, l’utilisation d'autres capteurs peut sembler superflue. Cependant, il ne faut pas oublier que, bien qu’assez fiable, le GNSS reste sensible à diverses perturbations. En effet, il n’est pas exclu que le capteur perde complètement le signal en raison de l’environnement extérieur, ou qu’il subisse des interférences.
+
+Pour garantir une précision forte dans toutes les situations, nous pouvons alors utiliser la fusion de données. Cette technique consiste à combiner les informations issues de plusieurs capteurs pour obtenir une estimation plus fiable de la position. Dans ce contexte, l’utilisation de l’IMU prend tout son sens. En effet, l’accéléromètre permet de mesurer les variations de vitesse, ce qui permet, à terme, d’estimer la vitesse elle-même. Cette vitesse instantanée peut alors être utilisée pour déterminer les déplacements, et par conséquent, la position.
+
+\subsection*{Comment faire ?}
+
+À présent, voyons comment mettre en œuvre cette fusion. Une méthode couramment utilisée est \textbf{le filtre de Kalman}, un outil mathématique puissant pour estimer l’état d’un système dynamique, comme la position et la vitesse, à partir de mesures bruitées. Ce filtre repose sur deux grandes étapes, répétées à chaque instant : \textbf{une étape de prédiction} puis \textbf{une étape de correction}.$\\$
+
+Afin de réaliser ces deux étapes, il faut d'abord établir un \textbf{modèle d’évolution de l’état} ainsi qu'un \textbf{Modèle d’observation}.
+
+\section{Implémentation}
+
+En résumé, nous devons définir chaque élément de ces deux modèles. Ensuite, une fonction python nous permettera d'utiliser l'algorithme de Kalman de manière automatique.
+
+\subsection*{Modèle d’évolution de l’état :}
+\[
+x_k = F_k x_{k-1} + G_k u_k + w_k
+\]
+
+Ici, \( x_k \) représente la position et la vitesse réelles, ainsi ce vecteur s'écrit :
+\[
+x_k = \begin{bmatrix}
+p_{x,k} \\
+p_{y,k} \\
+p_{z,k} \\
+v_{x,k} \\
+v_{y,k} \\
+v_{z,k}
+\end{bmatrix}
+\]
+
+De plus \( F_k \), la matrice de transition d'état permet de passer de la position k-1 à la position k grâce à au vecteur \( x_{k-1} \):
+\[
+F_k = 
+\begin{bmatrix}
+1 & 0 & 0 & \Delta t & 0 & 0 \\
+0 & 1 & 0 & 0 & \Delta t & 0 \\
+0 & 0 & 1 & 0 & 0 & \Delta t \\
+0 & 0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 \\
+\end{bmatrix}
+\]
+
+Ensuite, pour ajouter une information extérieur, nous pouvons définir le veteur \( u_k \) (entrée de contrôle). Ici, nous pouvons donner comme information l'accélération observée à l'itération k:
+
+\[
+u_k = \begin{bmatrix}
+a_{x,k} \\
+a_{y,k} \\
+a_{z,k}
+\end{bmatrix}
+\]
+
+Pour pouvoir l'utiliser dans notre équation, nous devons définir la matrice de contrôle \( G_k \), tel que:
+
+\[
+G_k = \begin{bmatrix}
+\frac{1}{2} \Delta t^2 & 0 & 0 \\
+0 & \frac{1}{2} \Delta t^2 & 0 \\
+0 & 0 & \frac{1}{2} \Delta t^2 \\
+\Delta t & 0 & 0 \\
+0 & \Delta t & 0 \\
+0 & 0 & \Delta t \\
+\end{bmatrix}
+\]
+
+Finalement, nous ajoutons du bruit sur la dynamique \( w_k \). Cela nous sert à definir le niveau de confiance que nous attribuons à notre modèle. L'algorithme s'appuiera donc plus ou moins sur cette équation pour approximer la position. Nous définirons ce vecteur de manière empirique.
+
+\subsection*{Modèle d’observation :}
+\[
+y_k = H_k x_k + v_k
+\]
+
+Dans ce modèle, \( y_k \) représente le vecteur d'observation, c’est-à-dire les mesures disponibles à l’instant \( k \). 
+La matrice \( H_k \) permet de relier l’état interne du système \( x_k \) aux variables effectivement observées.
+
+Ici, notre GNSS mesure uniquement la position (et non la vitesse), alors \( y_k \) contient seulement \( p_{x,k} \), \( p_{y,k} \), et \( p_{z,k} \), et la matrice \( H_k \) s’écrit :
+
+\[
+y_k = 
+\begin{bmatrix}
+p_{x,k} \\
+p_{y,k} \\
+p_{z,k}
+\end{bmatrix}
+,\quad
+H_k = 
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & 0 \\
+\end{bmatrix}
+\]
+
+Le terme \( v_k \) représente le bruit de mesure. Ainsi, ce modèle d’observation permet à l’algorithme de Kalman de confronter l’état prédit par le modèle à ce qui est effectivement observé, et de corriger cet état en conséquence.
+
+\section{Difficultés rencontrées}
+
+Maintenant que nous avons défini nos deux modèles, une dernière étape est nécessaire avant de pouvoir appliquer l’algorithme de Kalman : il s’agit de synchroniser spatialement les données issues de l’IMU et du GNSS. En effet, le GNSS fournit des positions exprimées en latitude et longitude, tandis que l’IMU utilise un repère propre, attaché au mobile. Or, notre modèle travaille dans un repère cartésien. Il est donc essentiel de convertir l’ensemble des données pour qu’elles soient exprimées dans le même système de coordonnées, et ainsi garantir leur cohérence dans les calculs.
+
+\subsection*{Le cas du GNSS :}
+
+En ce qui concerne le GNSS nous avons utiliser des formules vues en TD. Cela nous donne :
+
+\begin{align*}
+\theta &= (90 - \text{latitude}) \cdot \frac{\pi}{180} \\
+\phi &= \text{longitude} \cdot \frac{\pi}{180} \\
+x &= r \cdot \sin(\theta) \cdot \cos(\phi) \\
+y &= r \cdot \sin(\theta) \cdot \sin(\phi) \\
+z &= r \cdot \cos(\theta)
+\end{align*}
+
+
+\subsection*{Le cas de l'IMU :}
+
+Pour l'IMU, nous avons rencontrer bien plus de problèmes. En effet, le fait qu'il utilise un repère attaché au mobile nécessite d'utiliser quelques astuces ainsi que certains outils mathématiques. {\small \textit{Pour résoudre ce problème, nous nous sommes aidé d'un LLM, tout en vérifiant la cohérence des résultats.}}
+
+D'abord, nous voulons trouver la matrice de rotation \( R_{nb} \) pour passer du repère du mobile au repère NORD-EST-BAS :
+
+\[ \vec{v}_{\text{ned}} = R_{nb} \cdot \vec{v}_{\text{body}} \]
+
+\subsubsection*{Hypothèses et mesures disponibles :}
+
+\begin{itemize}
+    \item \(\vec{g}_b\) : vecteur gravité mesuré par l'accéléromètre (normalisé). Ici, nous faisons l'hypothèse que le système est immobile au lancement du programme.
+    \item \(\vec{m}_b\) : vecteur champ magnétique mesuré par le magnétomètre (normalisé).
+\end{itemize}
+
+\subsubsection*{Déduire les axes NED}
+
+\begin{itemize}
+    \item \(\hat{z}_n\) (Down) : direction opposée de la gravité \(\rightarrow -\vec{g}_b\).
+    \item \(\hat{x}_n\) (Nord) : projection du champ magnétique sur le plan horizontal, orthogonale à la gravité.
+    \[ \vec{m}_{\text{proj}} = \vec{m}_b - (\vec{m}_b \cdot \vec{g}_b) \vec{g}_b \Rightarrow \hat{x}_n = \frac{\vec{m}_{\text{proj}}}{\|\vec{m}_{\text{proj}}\|} \]
+    \item \(\hat{y}_n\) (Est) : produit vectoriel pour compléter la base directe :
+    \[ \hat{y}_n = \hat{z}_n \times \hat{x}_n \]
+\end{itemize}
+
+\subsubsection*{La matrice de rotation}
+
+Chaque vecteur devient une colonne de la matrice \( R_{nb} \) (rotation de body vers NED) :
+\[ R_{nb} = \begin{bmatrix} \hat{x}_n & \hat{y}_n & \hat{z}_n \end{bmatrix} \] $\\$
+
+Ensuite, nous voulons trouver la matrice de rotation \( R_{en} \) pour passer du repère NORD-EST-BAS au repère centré sur la Terre (ECEF : Earth-Centered, Earth-Fixed):
+
+\[ \vec{v}_{\text{ecef}} = R_{en} \cdot \vec{v}_{\text{ned}} \]
+
+\subsubsection*{Vecteur Down (D) exprimé en ECEF}
+
+Le vecteur Down pointe vers le centre de la Terre, donc dans la direction opposée au vecteur position (local).
+
+Le vecteur position dans ECEF (non normalisé) pour latitude \(\phi\), longitude \(\lambda\) est :
+\[ \vec{r} = \begin{bmatrix} \cos(\phi) \cos(\lambda) \\ \cos(\phi) \sin(\lambda) \\ \sin(\phi) \end{bmatrix} \Rightarrow \vec{D} = -\vec{r} \]
+
+Donc :
+\[ \vec{D}_{\text{ecef}} = \begin{bmatrix} -\cos(\phi) \cos(\lambda) \\ -\cos(\phi) \sin(\lambda) \\ -\sin(\phi) \end{bmatrix} \]
+
+\subsubsection*{Vecteur Est (E) exprimé en ECEF}
+
+Le vecteur Est est tangent à l’équateur local, perpendiculaire à Nord et Down.
+\[ \vec{E}_{\text{ecef}} = \begin{bmatrix} -\sin(\lambda) \\ \cos(\lambda) \\ 0 \end{bmatrix} \]
+
+Ce vecteur pointe vers l’Est à latitude constante.
+
+\subsubsection*{Vecteur Nord (N) exprimé en ECEF}
+
+Produit vectoriel :
+\[ \vec{N} = \vec{E} \times \vec{D} \]
+
+Ou bien directement défini :
+\[ \vec{N}_{\text{ecef}} = \begin{bmatrix} -\sin(\phi) \cos(\lambda) \\ -\sin(\phi) \sin(\lambda) \\ \cos(\phi) \end{bmatrix} \]
+
+$\\$
+
+Finalement, un autre problème se pose. Cette matrice de rotation n'est valable que pour la position initiale de l'IMU. A partir du moment où ce capteur commence à tourner, les valeurs ne sont plus correctes. Pour résoudre ce problème, nous pouvons utiliser le gyroscope. Celui-ci nous aidera à connaitre la vitesse angulaire de chaque axe du capteur et ainsi pouvoir compenser ces rotation. Nous pouvons alors "revenir" à la position initiale à chaque instant et ensuite réutiliser cette matrice. Après avoir implémenter toutes ces transformations, nous pouvons les appliquer sur nos données et enfin utiliser le filtre de Kalman. 
+
+\subsection*{Conclusion sur la fusion des données}
+
+Après avoir compris la théorie autour du filtre de Kalman, ainsi que les nombreux obstacles que nous allions rencontrer afin de l'utiliser, nous avons tenté de l'implémenter. Durant nos premières phases de tests, nos résultats montraient des erreurs prochent de 500 mètres autour du point réel. Il nous faudra alors régler les différents paramètres de manière empirique et revoir si notre implémentation est correcte.
+
