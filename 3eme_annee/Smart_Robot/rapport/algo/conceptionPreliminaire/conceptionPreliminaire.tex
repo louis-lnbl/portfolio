@@ -1,0 +1,209 @@
+\chapter{Conception préliminaire}
+
+\setlength{\parskip}{0.05cm}
+
+Cette partie répertorie les signatures des principaux algorithmes nécessaires à la résolution du problème du labyrinthe.
+\vspace{0.5mm}
+
+% CREER LABYRINTHE
+\begin{algorithme}
+    \signaturefonction
+        {creerLabyrinthe}
+        {caseDEntree : {\naturelNonNul}, \\ 
+         caseDeSortie : {\naturelNonNul}, \\ 
+         largeurLabyrinthe : {\naturelNonNul}, \\ 
+         directionPorteEntree : {\direction}, directionPorteSortie : {\direction}, \\ 
+         liaisonsCases : liste<{\cdc}>}
+        {\Labyrinthe}
+\end{algorithme}
+
+\begin{algorithme}
+    \signaturefonction
+        {labyrinthe}
+        {longueur : {\naturelNonNul}, \\ 
+         caseDeDepart : {\naturelNonNul}, \\ 
+         caseDeFin : {\naturelNonNul}, \\ 
+         direction1 : {\direction}, direction2 : {\direction}}
+        {\Labyrinthe}
+    \remarque{
+        Préconditions : \\
+        caseDeDepart différent de caseDeFin : $caseDeDepart \neq caseDeFin$ \\[5pt]
+        caseDeDepart appartient à: \\
+        \quad $[|1, n|] \cup [|n^2 - n, n^2|] \cup \{k \in [|1, n|] \mid k \times n\} \cup \{k \in [|1, n|] \mid k \times n + 1\}$ \\[5pt]
+        caseDeFin appartient à: \\
+        \quad $[|1, n|] \cup [|n^2 - n, n^2|] \cup \{k \in [|1, n|] \mid k \times n\} \cup \{k \in [|1, n|] \mid k \times n + 1\}$.
+    }
+\end{algorithme}
+
+\begin{algorithme}
+    \signatureprocedure
+        {creerPassage}
+        {\paramEntreeSortie{Laby : {\Labyrinthe}}, \\ 
+         \paramEntree{liaisonsCases : liste<{\cdc}>}}
+\end{algorithme}
+
+\begin{algorithme}
+    \signatureprocedure
+        {separationCases}
+        {\paramEntree{casesASeparer : {\cdc}}, \\ 
+         \paramSortie{case1 : {\naturelNonNul}, case2 : {\naturelNonNul}}}
+\end{algorithme}
+
+\begin{algorithme}
+    \signatureprocedure
+        {casserMur}
+        {\paramEntreeSortie{Laby : {\Labyrinthe}}, \\ 
+         \paramEntree{case1 : {\naturelNonNul}, case2 : {\naturelNonNul}}}
+    \remarque{Préconditions:
+    case1 $\neq$ case2, 
+    case1 $\leq$ largeur(Laby)$^2$, 
+    case2 $\leq$ largeur(Laby)$^2$.}
+\end{algorithme}
+
+\begin{algorithme}
+    \signatureprocedure
+        {creerLien}
+        {\paramEntreeSortie{matrice : {MatriceDAdjacence}}, \\ 
+         \paramSortie{nn1 : {\naturelNonNul}, nn2 : {\naturelNonNul}}}
+\end{algorithme}
+
+% GESTION DU FICHIER
+\begin{algorithme}
+    \signatureprocedure
+        {gestionDuFichier}
+        {\paramEntree{nomFichier : {\cdc}}, \paramEntreeSortie{listeLiaisons : liste<{\cdc}}, \paramSortie{largeur : {\nnn}, caseEntree : {\nnn}, caseSortie : {\nnn}, directionPorteEntree : {\direction}, directionPorteSortie : {\direction}}}  \\ 
+\end{algorithme}
+
+% RESOLUTION
+\begin{algorithme}
+    \signaturefonction
+        {resolution}
+        {Laby : {\Labyrinthe}}
+        {liste<{ordre}>}
+\end{algorithme}
+
+% TROUVER PLUS COURT CHEMIN
+\begin{algorithme}
+    \signaturefonction
+        {trouverPlusCourtChemin}
+        {Laby : {\Labyrinthe}}
+        {pile<{\naturelNonNul}>}
+\end{algorithme}
+
+\begin{algorithme}
+    \signaturefonction
+        {caseDEntree}
+        {Laby : {\Labyrinthe}}
+        {caseEtDirection}
+\end{algorithme}
+
+\begin{algorithme}
+    \signatureprocedure
+        {trouverLesChemins}
+        {\paramEntree{laby : {\Labyrinthe}}, \\ 
+         \paramEntreeSortie{cheminCourant : Pile<{\naturelNonNul}>, \\ 
+         cheminsPossibles : Ensemble<Pile<{\naturelNonNul}>}}
+\end{algorithme}		
+
+\begin{algorithme}
+    \signaturefonction
+        {copiePile}
+        {pile : Pile<{\naturelNonNul}>}
+        {Pile<{\naturelNonNul}>}
+\end{algorithme}
+
+\begin{algorithme}
+    \signaturefonction
+        {caseDeSortie}
+        {Laby : {\Labyrinthe}}
+        {caseEtDirection}
+\end{algorithme}
+
+\begin{algorithme}
+    \signaturefonction
+        {casesAccessibles}
+        {uneCase : {\naturelNonNul}, \\ 
+         Laby : {\Labyrinthe}}
+        {lesVoisins : Ensemble<{\naturelNonNul}>}
+        \remarque{Préconditions:
+    uneCase $\leq$ largeur(Laby)$^2$}
+\end{algorithme}
+
+\begin{algorithme}
+    \signaturefonction
+        {obtenirLiens}
+        {uneCase : {\naturelNonNul}, \\ 
+         matrice : {MatriceDAdjacence}}
+        {lesVoisins : Liste<{\naturelNonNul}>}
+\end{algorithme}
+
+\begin{algorithme}
+    \signaturefonction
+        {comparaisonChemins}
+        {cheminsPossibles : Ensemble<Pile<{\naturelNonNul}> >}
+        {Pile<{\naturelNonNul}>}
+\end{algorithme}
+
+% CONVERSION CASES EN CASES ET DIRECTIONS
+\begin{algorithme}
+    \signaturefonction
+        {conversionCasesEnCasesEtDirections}
+        {Laby : {\Labyrinthe}, \\ 
+         p : Pile<{\naturelNonNul}>}
+        {liste<{caseEtDirection}}
+\end{algorithme}
+
+\begin{algorithme}
+    \signaturefonction
+        {directionEntreeEtSortie}
+        {Laby : {\Labyrinthe}}
+        {\direction, \direction}
+\end{algorithme}
+
+% CONVERSION CASES ET DIRECTIONS EN ORDRE
+\begin{algorithme}
+    \signaturefonction
+        {conversionCasesEtDirectionsEnOrdres}
+        {Laby : {\Labyrinthe}, \\ 
+         casesDirections: liste<{caseEtDirection}}
+        {liste<{ordres}}
+\end{algorithme}
+
+\begin{algorithme}
+    \signaturefonction
+        {directionEntreeEtSortie}
+        {Laby : {\Labyrinthe}}
+        {\direction, \direction}
+\end{algorithme}
+
+\begin{algorithme}
+    \signaturefonction
+        {choixOrdre}
+        {Laby : {\Labyrinthe}, \\ 
+         directionCasePrecedente : {\direction}, directionCaseActuelle : {\direction}, \\ 
+         caseActuelle : {\naturelNonNul}, \\ 
+         ordres : liste<{ordre}>}
+        {\direction, \direction}
+\end{algorithme}
+
+\begin{algorithme}
+    \signaturefonction
+        {directionsPossibles}
+        {Laby : {\Labyrinthe}, \\ 
+         nnn : {\naturelNonNul}}
+        {Ensemble<{\direction}>}
+\end{algorithme}
+
+\begin{algorithme}
+    \signaturefonction
+        {positionPorteEnDirection}
+        {d : {\direction}}
+        {\direction}
+\end{algorithme}
+
+% AUTRE 
+\begin{algorithme}
+    \signatureprocedure
+        {afficherListeOrdre}
+        {\paramEntree{ordres: liste<{ordre}}}
+\end{algorithme}

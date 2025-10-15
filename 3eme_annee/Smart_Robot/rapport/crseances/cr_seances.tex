@@ -1,0 +1,142 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc} % Encodage UTF-8
+\usepackage[T1]{fontenc}    % Gestion des accents
+\usepackage{geometry}       % Gestion des marges
+\usepackage{setspace}       % Espacement des lignes
+\usepackage{hyperref}       % Liens hypertextes
+
+% Configuration de la mise en page
+\geometry{margin=1in}
+\setstretch{1.15}
+
+\begin{document}
+
+\title{Compte-rendu des séances}
+\author{}
+\date{}
+\maketitle
+
+\section*{COMPTE-RENDU DE CHAQUE SÉANCE}
+
+\textbf{Note} : J'ai forcément oublié des éléments que vous avez réalisés durant les séances, car je faisais autre chose. N'hésitez pas à me le dire.
+
+\section{TP ELEC PROJET}
+
+\subsection{Séance 1 (16/10)}
+\begin{itemize}
+    \item Réflexion sur la construction du robot :
+    \begin{itemize}
+        \item Placement des moteurs, des capteurs.
+        \item Distances entre les éléments.
+        \item Nombre de capteurs nécessaires.
+    \end{itemize}
+    \item Réflexion sur les stratégies de déplacement :
+    \begin{itemize}
+        \item Méthodes pour prendre des virages et avancer efficacement.
+        \item Solutions retenues :
+        \begin{itemize}
+            \item Utilisation de 4 capteurs : 3 à l'avant (1 centré, 1 à gauche, 1 à droite) et 1 à l'arrière (centré avec celui à l'avant).
+            \item Objectif : sortir du labyrinthe le plus vite possible.
+        \end{itemize}
+    \end{itemize}
+    \item Méthode de virage :
+    \begin{itemize}
+        \item Le robot continue d'avancer tout en tournant en courbe.
+        \item Le capteur arrière détecte la ligne sur laquelle il était avant le virage.
+        \item Une fois la ligne détectée, le robot se recentre pour finir le virage.
+        \item En cas de problème, une rotation classique de 90° pourra être utilisée.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Séance 2 (06/11)}
+\begin{itemize}
+    \item \textbf{Louis} : Organisation et branchement sur la carte Raspberry (à l'exception des moteurs). \texttt{push} du schéma Fritzing.
+    \item \textbf{Yohann/Maël} : Découpage d'un modèle de flamme imprimé, collage sur le robot, perçage et peinture des murs en bleu et rouge.
+    \item \textbf{Nathan/Dylan} : 
+    \begin{itemize}
+        \item Clonage du dépôt Git sur la carte.
+        \item Séparation des fichiers et dossiers.
+        \item Écriture d'un algorithme pour les déplacements du robot (\texttt{parcours\_laby.c}).
+        \item Simplification de l'analyse descendante (fusion de fonctions redondantes comme \texttt{RotationGauche} et \texttt{RotationDroite}).
+        \item Implémentation de l'arrêt d'urgence : vitesse des moteurs mise à 0 et extinction.
+    \end{itemize}
+    \item Détails du fonctionnement du robot :
+    \begin{itemize}
+        \item \textbf{Se remettre droit} : Si un capteur latéral détecte une ligne mais pas les autres.
+        \item \textbf{Virages à gauche/droite} : Détection par le capteur central et un capteur latéral.
+        \item \textbf{Avancer} : Avancer à vitesse modérée pour limiter les arrêts.
+        \item \textbf{Sortie du labyrinthe} : Si aucun capteur ne détecte de ligne, le robot coupe les moteurs.
+    \end{itemize}
+    \item Tests des moteurs et des roues, impression des motifs du robot.
+\end{itemize}
+
+\subsection{Séance 3 (20/11)}
+\begin{itemize}
+    \item \textbf{Louis/Yohann} : Branchement des moteurs, montage du robot (fixation des éléments, soudures, etc.).
+    \item \textbf{Dylan/Nathan/Maël} : Écriture du code en C pour les moteurs, l'écran LCD, le signal sonore, et le buzzer.
+    \item Discussion sur l'arrêt d'urgence en virage.
+    \item Préparation pour la séance suivante :
+    \begin{itemize}
+        \item Finaliser le code pour que tout fonctionne.
+        \item Compiler et tester le parcours du labyrinthe avec les threads.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Séance 4 (04/12)}
+\begin{itemize}
+    \item Objectifs : Vérification des fonctions, tests sur le robot.
+\end{itemize}
+
+\section{TD ALGO PROJET}
+
+\subsection{Séance 1 (22/10)}
+\begin{itemize}
+    \item \textbf{Objectif} : Mise en place du projet GitLab et spécification du TAD \texttt{Labyrinthe}.
+    \item \textbf{Travail réalisé} : FAIT avant la séance 2.
+\end{itemize}
+
+\subsection{Séance 2 (05/11)}
+\begin{itemize}
+    \item \textbf{Objectif} : Analyse descendante des opérations suivantes :
+    \begin{itemize}
+        \item \texttt{Labyrinthe → Liste<NaturelNonNul>}
+        \item \texttt{Liste<NaturelNonNul> → Liste<Ordre>}
+    \end{itemize}
+    \item \textbf{Travail réalisé} : FAIT avant la séance 3.
+\end{itemize}
+
+\subsection{Séance 3 (13/11)}
+\begin{itemize}
+    \item \textbf{Objectif} : Conception préliminaire et détaillée.
+    \item \textbf{Travail réalisé} :
+    \begin{itemize}
+        \item \textbf{Louis} : CP + CD Trouver le plus court chemin, écriture du TAD \texttt{Noeud}.
+        \item \textbf{Dylan/Nathan} : CP + CD Conversion des noeuds en ordres.
+        \item \textbf{Maël} : CP + CD Analyse de fichier et macros.
+        \item \textbf{Yohann} : CP + CD Création de passage.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Séance 4 (19/11)}
+\begin{itemize}
+    \item \textbf{Objectif} : Développement des fichiers \texttt{.h}, des fichiers \texttt{.c} vides, et des tests unitaires.
+    \item \textbf{Travail réalisé} :
+    \begin{itemize}
+        \item Clarification de l'analyse descendante et des principes des algorithmes.
+        \item Mise en ordre des conventions de codage (nommage des fonctions, accolades, etc.).
+        \item Discussions sur le TAD \texttt{Noeud} : suppression et modifications nécessaires.
+        \item Organisation des bibliothèques et fichiers.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Séance 5 (26/11)}
+\begin{itemize}
+    \item \textbf{Objectif} : Développement des fichiers \texttt{.c}.
+\end{itemize}
+
+\subsection{Séance 6 (03/12)}
+\begin{itemize}
+    \item Objectifs et travail à définir.
+\end{itemize}
+
+\end{document}

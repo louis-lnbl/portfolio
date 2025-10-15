@@ -1,0 +1,51 @@
+\chapter{Annexes}
+
+\lstset{ 
+    basicstyle=\ttfamily\small,
+    breaklines=true, 
+    frame=single, 
+    xleftmargin=20pt,
+    xrightmargin=20pt, 
+}
+
+\input{Annexe/references.tex}
+\input{Annexe/glossaire.tex}
+
+
+\section{Analyses descendente version PDF} 
+    Ci dessous sont présentés en format page entière les analyses descendantes mises en place lors du cycle en V.
+    \includepdf[pages=-]{algo/analyse/analyseDescendante_Algo.pdf} 
+    \includepdf[pages=-]{elec/analyseDescendante_Elec.pdf} 
+
+\section{Fichiers .c}
+
+    \subsection{Les Types}
+        \subsubsection{Les listes}
+            \lstinputlisting[language=C]{../Programme/src/Types/ListeDeNNN.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/ListeDOrdre.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/ListeDeCDC.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/ListeDeCaseEtDirection.c}
+
+        \subsubsection{Les listes chaînées}
+            \lstinputlisting[language=C]{../Programme/src/Types/ListeChaineeDeNNN.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/ListeChaineeDOrdre.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/ListeChaineeDeCDC.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/ListeChaineeDeCaseEtDirection.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/ListeChaineeDeDirection.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/ListeChaineeDePileDeNNN.c}
+
+        \subsubsection{Les ensembles}
+            \lstinputlisting[language=C]{../Programme/src/Types/EnsembleDeNNN.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/EnsembleDeDirection.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/EnsembleDePileDeNNN.c}
+
+        \subsubsection{Les autres types}
+            \lstinputlisting[language=C]{../Programme/src/Types/PileDeNNN.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/MatriceDAdjacence.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/Ordre.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/caseEtDirection.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/Direction.c}
+            \lstinputlisting[language=C]{../Programme/src/Types/labyrinthe.c}
+
+
+

@@ -1,0 +1,41 @@
+\begin{algorithme}
+	\fonction{conversionCasesEnCasesEtDirections}
+  	{laby : Labyrinthe, p : Pile<\nnn>}
+  	{Liste<caseEtDirection>}
+  	{casesDirections : Liste<caseEtDirection>, \\
+	caseActuelle, casePrecedente : \nnn, \\
+	porteEntree, porteSortie : Direction}
+	{
+	\affecter{caseActuelle}{obtenirElement(p)} \\
+	\affecter{casesDirections}{listeVide()} \\
+	\instruction{directionEntreeEtSortie(laby, porteEntree, porteSortie)} \\
+	\instruction{inserer(casesDirections, caseEtDirection(caseActuelle, positionPorteEnDirection(porteSortie)), 1)} \\
+	\instruction{depiler(p)} \\
+
+	\tantque{non estVide(p)}{
+		\affecter{casePrecedente}{obtenirElement(p)} \\
+      
+      
+			\sialors{casePrecedente $<$ caseActuelle}{
+				\sialors{casePrecedente + 1 = caseActuelle}{
+					\instruction{inserer(casesDirections, caseEtDirection(casePrecedente, D), 1)}
+        			}
+				\instruction{inserer(casesDirections, caseEtDirection(casePrecedente, B), 1)}
+			}
+			{
+        		\sialors{(casePrecedente - 1) = caseActuelle}{
+          			\instruction{inserer(casesDirections, caseEtDirection(casePrecedente, G), 1)}
+        		}
+        		\instruction{inserer(casesDirections, caseEtDirection(casePrecedente, H), 1)}
+      			}
+      	
+	\instruction{depiler(p)} \\
+	\affecter{caseActuelle}{casePrecedente}
+    	}
+    	\retourner{casesDirections}
+  	}
+\end{algorithme}
+
+
+
+

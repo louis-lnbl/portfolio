@@ -1,0 +1,16 @@
+\begin{algorithme}
+	\fonction{LongueurPile}
+	{pile : Pile<noeud>}
+	{\naturelNonNul}
+	{longueurDeLaPile : \naturel}
+	{   
+        \affecter{longueurDeLaPile}{0} 
+        
+        \tantque{non estVide(pile)}
+            {
+                \affecter{longueurDeLaPile}{longueurDeLaPile + 1}
+                \instruction{dépiler(pile)}
+            }
+        \retourner{longueurDeLaPile}
+    }         
+\end{algorithme}

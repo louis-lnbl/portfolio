@@ -1,0 +1,139 @@
+\chapter{Conception détaillée}
+
+    \lstset{
+        language=C,
+        basicstyle=\ttfamily\footnotesize,
+        keywordstyle=\color{blue}\bfseries,
+        commentstyle=\color{gray},
+        stringstyle=\color{red},
+        numbers=left,
+        numberstyle=\tiny\color{gray},
+        breaklines=true,
+        frame=single,
+        extendedchars=true, 
+        literate={é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {à}{{\`a}}1 {ç}{{\c{c}}}1, 
+        captionpos=b
+    }
+
+    Le groupe s'est concerté pour se fixer des contraintes de codage afin de faciliter la relecture du code par d'autres membres du groupe (tabulation, positionnement des parenthèses et accolades...). De plus, la conception détaillée nous permet de nous guider pour la phase d'écriture des algorithmes en C.
+    \vspace{0.5mm}
+
+    \section{Principes de développement}
+        \subsection{Structure de l'algorithme}
+            Pour implémenter l'algorithme nous avons décidé d'utiliser de nombreux types : listes, listes chaînées, ensembles ... afin d'avoir peu de fonctions à implémenter ensuite pour résoudre le problème du labyrinthe. De plus, l'ensemble de ces types permet une implémentation plus structurée, plus claire et plus évidente de par l'utilisation de fonctions et donc la création d'algorithmes plutôt courts, car de nombreuses opérations sont définies dans les types utilisées.
+
+        \subsection{Les espaces de nommage}
+            Les espaces de nommages sont primordiales lors de l'écriture collaborative d'algorithmes afin de garder un code clair et harmonieux. Alors, nous avons définis les conventions suivantes : 
+
+            \begin{itemize}
+                    \item Chaque type commence par une lettre majuscule, avec chaque nouveau mot également en majuscule. Exemple : \texttt{ListeDOrdre}. Chaque type est préfixé par ses initiales. Exemple : \texttt{LDO\_ListeDOrdre}.
+                    \item Les fonctions et procédures sont toujours préfixées par le type qu'elles manipulent. Elles commencent toutes par une minuscule, avec chaque nouveau mot en majuscule. Exemple : \texttt{LAB\_initialisationLabyrinthe}.
+                    \item Les variables sont toujours écrites en minuscules, avec une majuscule pour chaque nouveau mot. Exemple : \texttt{positionActuelle}.
+                    \item L'ouverture d'une accolade se fait sur la même ligne que l'instruction dont elle dépend, et la fermeture de l'accolade est sur une nouvelle ligne.
+                    \item Une indentation est ajoutée à chaque entrée dans une boucle ou une condition.
+            \end{itemize}
+
+
+
+    \section{Conception détaillée des fonctions principales}
+        Ci-dessous sont répertoriées les principales signatures des algorithmes permettant de résoudre le labyrinthe.
+        \vspace{0.2mm}
+        \subsection{analyse Fichier}
+            \input{algo/conceptionDetaillee/analyseFichier.tex} 
+        \subsection{Cases est presente dans pile}
+            \input{algo/conceptionDetaillee/CasesEstPresenteDansPile.tex} 
+        \subsection{Comparaison chemins}
+            \input{algo/conceptionDetaillee/ComparaisonChemins.tex} 
+        \subsection{conversion cases en cases et directions}
+            \input{algo/conceptionDetaillee/conversionCasesEnCasesEtDirections.tex} 
+        \subsection{conversion cases et directions en ordres}
+            \input{algo/conceptionDetaillee/conversionCasesEtDirectionsEnOrdres.tex} 
+        \subsection{choix ordre}
+            \input{algo/conceptionDetaillee/choixOrdre.tex} 
+        \subsection{Copie pile}
+            \input{algo/conceptionDetaillee/CopiePile.tex} 
+        \subsection{creer passage}
+            \input{algo/conceptionDetaillee/creerPassage.tex} 
+        \subsection{Longueur}
+            \input{algo/conceptionDetaillee/Longueur.tex} 
+        \subsection{plus court chemin}
+            \input{algo/conceptionDetaillee/plusCourtChemin.tex} 
+        \subsection{trouver les chemins}
+            \input{algo/conceptionDetaillee/trouverLesChemins.tex}
+        \vspace{2mm}
+
+    \section{Développement en langage C}
+
+        \vspace{2mm}
+        Dès lors que l'ensemble des éléments essentiels à la résolution du problème du labyrinthe ont été identifié, vient l'étape de l'implémentation en langage C. D'abord, il s'agit de créer les interfaces à l'aide des .h . Comme nous utilisons de nombreux types, il est préférable de présenter directement les .h et .c liés à la sortie du labyrinthe.
+    \subsection{Les .h principaux}
+        Ci dessous sont présentés les fichiers .h principaux.
+        \lstinputlisting[language=C]{../Programme/include/Labyrinthe/trouverLesOrdres.h}
+   	\lstinputlisting[language=C]{../Programme/include/Labyrinthe/traitementLabyrinthe.h}
+    	\lstinputlisting[language=C]{../Programme/include/Labyrinthe/trouverChemin.h}
+    	\lstinputlisting[language=C]{../Programme/include/Labyrinthe/casesEnOrdres.h}
+    	\lstinputlisting[language=C]{../Programme/include/Labyrinthe/gestionFichier.h}
+        \vspace{2mm}
+
+    \subsection{Les .c principaux}
+        Ci dessous sont présentés les .c des .h présentés ci-dessus. Veuillez trouver les .c des types en Annexe.
+        \lstinputlisting[language=C]{../Programme/src/Labyrinthe/solution.c}
+        \lstinputlisting[language=C]{../Programme/src/Labyrinthe/trouverLesOrdres.c}
+        \lstinputlisting[language=C]{../Programme/src/Labyrinthe/traitementLabyrinthe.c}
+        \lstinputlisting[language=C]{../Programme/src/Labyrinthe/trouverChemin.c}
+        \lstinputlisting[language=C]{../Programme/src/Labyrinthe/casesEnOrdres.c}
+        \lstinputlisting[language=C]{../Programme/src/Labyrinthe/gestionFichier.c}
+        \lstinputlisting[language=C]{../Programme/src/Labyrinthe/initialisationLabyrinthe.c}
+        \lstinputlisting[language=C]{../Programme/src/main.c}
+        \vspace{2mm}
+
+   \subsection{Les .c de la partie électronique}
+        Ci-dessous sont présentés les .c associés au code du robot.
+        \lstinputlisting[language=C]{../Programme/src/elec/buzz.c}
+        \lstinputlisting[language=C]{../Programme/src/elec/capteurLigne.c}
+        \lstinputlisting[language=C]{../Programme/src/elec/capteurObstacle.c}
+        \lstinputlisting[language=C]{../Programme/src/elec/ecran.c}
+        \lstinputlisting[language=C]{../Programme/src/elec/codeMoteur.c}
+        \lstinputlisting[language=C]{../Programme/src/elec/parcoursLabyrinthe.c}
+        \lstinputlisting[language=C]{../Programme/src/elec/setup.c}
+
+    \section{Tests unitaires}
+
+        \vspace{2mm}
+        Une fois que toutes les fonctions et procédures sont créées, il faut les tester indépendamment afin de s'assurer de leur fiabilité. C'est une étape très importante, car elle permet de rendre les tests d'intégration bien plus fiables. En effet, si un problème survient lors des tests d'intégration, cela signifie que c'est une erreur d'algorithmie et non d'implémentation. Nous avons donc réalisés pas moins de 124 tests unitaires sur les types. 
+    \section{Tests d'intégrations}
+        Une fois que nous avions la garantie que toutes les fonctions/ procédures fonctionnaient correctement, nous avons commencé l'étape des tests d'intégration. Celle-ci consiste à mettre en lien chaque fonction et de vérifier que celles-ci nous retournent bien les résultats attendus. 
+        \subsection{Partie algorithmique}
+            Concernant la partie algorithmique, le but était de vérifier que les fonctions de la sortie du labyrinthe sont corrects. Pour cela, on donne le fichier du labyrinthe à notre programme puis on vérifie que chaque partie du programme donne le résultat attendu.
+            Cela permet de voir et comprendre les erreurs du programme à chaque étape pour ainsi les corriger, notamment en utilisant l'outil de débuggage permettant de s'arrêter à divers moments de l'exécution.\\
+
+            Le but était de pouvoir identifier et de résoudre les erreurs plus rapidement. Ces tests ont été très pertinents car ils ont permis de relever certaines incohérences et identifier des aspects qui ont été mal anticipés durant le projet. Pour illustrer, la copie des piles, des listes, ou des ensembles qui n'avaient pas été réalisés correctement. C'est pour cela qu'il a fallu ajouter des fonctions spécifiques afin de réaliser des deep copies. De plus, nous avons réalisé que nos algorithmes n'étaient pas toujours des plus évidents. Par exemple, l'utilisation d'une pile stockant le chemin courant ainsi qu'un ensemble de pile stockant tous les chemins possibles. Pour trouver le chemin le plus court, il a donc fallu implémenter une fonction qui compare ces chemins. Cependant, après réflexion, il aurait été préférable d'utiliser une liste de cases. Cela nous aurait offert de nombreux avantages :
+            \vspace{0.1mm}
+            \begin{itemize}
+            \item L'implémentation du type EnsembleDePileDeNNN n'était plus nécessaire.
+            \item L'implémentation du type PileDeNNN n'était plus nécessaire.
+            \item La manipulation de la Liste est bien plus simple que la manipulation de la Pile.
+            \item L'implémentation de la fonction de comparaison des chemins pouvait être évitée.
+            \end{itemize}
+
+            Pour conclure, l'algorithme fonctionne parfaitement mais nous avons perçu quelques axes d'améliorations si c'était à refaire.
+
+            \vspace{2mm}
+
+        \subsection{Partie électronique}
+            Nous avons dû tester chaque composant de manière indépendante, afin de vérifier le bon fonctionnement du composant et de ses fonctions associées. Le test s'est déroulé en 2 parties: 
+            \begin{itemize}
+                \item Le test électrique : le composant était branché à une source d'alimentation, puis à l'aide d'un voltmètre, nous avons effectué des prises de tensions pour vérifier le bon fonctionnement.
+                \item Le test du code C : en gardant le composant branché, on exécute un programme simple pour vérifier si la réponse du composant est bien celle attendue. 
+            \end{itemize}
+            Dès lors, nous avons exécuté notre code pour vérifier le bon comportement du composant. Finalement, nous avons regroupé ensemble toutes les fonctions pour créer un algorithme global dans l'objectif de faire sortir le robot du labyrinthe.\\
+
+            Encore une fois, ces tests ont été très pertinents et nous ont permis de prendre conscience de nos erreurs. Dans un premier temps, nous avons réalisé que la stratégie utlisée pour guider le robot au sein du labyrinthe était théoriquement bonne, mais physiquement trop complexe à mettre en place. En effet, la longueur des cases ne nous permettait pas de tourner correctement. Nous avons donc dû trouver une autre approche pour résoudre le labyrinthe. La difficulté résidait alors dans le fait que nous ne pouvions pas changer la position des capteurs à cause de la contrainte de temps. Cependant, la façon dont nous avons implémenté nos fonctions nous permettait de les réutiliser assez facilement dans un autre contexte.\\
+
+            % explication fonctionnement du robot après changements.
+            Le positionnement du capteur arrière s'est donc révélé plutôt inutile, ce qui nous a forçé à implementer le code à l'aide de 3 capteurs seulement, une tâche plutôt complexe quand la majorité des groupes utilisent 4 capteurs voire 5. Lorsque nous détections un virage, nous avancions un peu de manière à ne plus le détecter, puis nous tournions jusqu'à ce que nous récupérions la ligne avec le capteur du milieu. Il est intéressant de noter que cette manière de prendre les virages respecte bien la consigne de suivre les lignes tout en veillant à ne franchir aucun mur, c'est à dire que le robot restait parfaitement dans les cases.\\
+
+            Finalement, bien que nous ayons réussi à trouver une méthode satisfaisante, nous avons rencontré quelques problèmes, notamment au niveau des intersections. Bien que nous sommes parvenus, à faire sortir le robot du labyrinthe proposé dans le sujet, en effectuant la résolution du labyrinthe à l'envers (la case d'entrée devient la case de sortie et vice-versa) nous nous sommes heurtés au problème suivant: le robot considère les successions d'ordres avancer comme un seul ordre avancer. En effet, bien qu'il reçoive les ordres d'avancer les uns à la suite des autres et bien qu'il soit censé poursuivre en ligne droite, le robot tourne. Le problème réside alors dans une entrée de boucle qui n'est pas respectée. Plus précisemment, lorsque le robot détecte une intersection, nous voulons qu'il continue jusqu'à ce qu'il ne la détecte plus, puis qu'il effectue l'ordre suivant. Cependant, celui ci n'attend pas de sortir de l'intersection et enchaine les ordres avancer très rapidement.\\ 
+
+            Ainsi, lors de la soutenance, notre robot a parfaitement démarré en effectuant les quatre virages de suite, et a finalement rencontré le même problème. Nous sommes tout de même fiers du travail accompli.
+

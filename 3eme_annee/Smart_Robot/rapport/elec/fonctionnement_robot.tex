@@ -1,0 +1,51 @@
+\chapter{Principe de fonctionnement du robot}
+        \section{Fonctionnalités du robot}
+                Dans ce chapitre, nous vous partageons le premier principe de fonctionnement du robot qui a été retenu par l'équipe. Rappelons d'abords les différentes capacités à intégrer au robot:
+                \vspace{1mm}
+                \begin{itemize}
+                        \item \underline{fonctionner de manière autonome:} le robot doit fonctionner de manière autonome, c'est à dire qu'une fois le script bash lancé, il exécute tous les codes implémentés.
+                \end{itemize}
+                \vspace{1mm}
+
+                \begin{itemize}
+                        \item \underline{savoir suivre une ligne et détecter des intersections:} le robot dispose de capteurs capablent de détecter une ligne. Le robot doit pouvoir suivre ces lignes s'il veut pouvoir se déplacer dans le labyrinthe. Il doit être capable de distinguer plusieurs lignes et de suivre la bonne (selon l'algorithme explicité plus bas).
+                \end{itemize}
+                \vspace{1mm}
+
+                \begin{itemize}
+                        \item \underline{résoudre le labyrinthe:} le robot utilise l'algorithme de résolution du labyrinthe pour sortir de celui-ci.
+                \end{itemize}
+                \vspace{1mm}
+
+                \begin{itemize}
+                        \item \underline{aller vite:} les choix effectués lors du placement des capteurs et de l'implémentation du code du robot ont une influence sur la vitesse du robot dans le parcours du labyrinthe. L'objectif est d'être le groupe le plus rapide à sortir du labyrinthe.
+                \end{itemize}
+                \vspace{1mm}
+
+                \begin{itemize}
+                        \item \underline{pouvoir effectuer un arrêt d'urgence:} lorsqu'il rencontre un obstacle placé devant lui, le robot doit pouvoir s'arrêter et ne pas heurter cet obstacle.
+                \end{itemize}
+                \vspace{1mm}
+
+                \begin{itemize}
+                        \item \underline{émettre un signal sonore:} le robot, lorsqu'il s'arrête de manière urgente, émet un signal sonore.
+                \end{itemize}
+                \vspace{1mm}
+
+                \begin{itemize}
+                        \item \underline{afficher ses déplacements:} le robot suit des ordres de déplacement, qu'il doit pouvoir afficher de manière visible aux personnes extérieurs.
+                \end{itemize}
+                \vspace{3mm}
+
+                A l'aube du projet, nous avons organisé une réflexion commune sur la méthode optimale permettant au robot de sortir du labyrinthe le plus vite possible. Dès lors, la réflexion s'est portée sur les composants à utiliser, c'est-à-dire que nous nous sommes demandés comment exploiter au mieux les composants à notre disposition. De plus, nous avons échangé sur la manière dont le robot va parcourir le labyrinthe.
+                \vspace{5mm}
+
+
+        \section{Principe de parcours: lignes droites et virages}
+        \subsection{Les lignes droites}
+                Le robot ne peut pas avancer de manière parfaitement droite sur la ligne, il va connaître des écarts de trajectoire qui vont faire que le capteur central ne va plus détecter la ligne. Si cela arrive, il est nécessaire de recentrer le robot sur la ligne. En cela, dès qu'un des deux capteurs latéraux détecte la ligne, le robot se recentre. L'objectif étant qu'il ne diverge pas n'importe où et surtout qu'il arrive dans une intersection (respectivement un virage) le plus droit possible afin de détecter l'intersection (respectivement le virage) suivant efficacement.
+        \subsection{Les virages}
+                Le robot a pour objectif de sortir du labyrinthe le plus rapidement possible. En cela, nous avons opté pour une prise de virage dans laquelle le robot reste en mouvement lors de la détection du virage/ de l'intersection. \\ Prenons l'exemple d'un virage à gauche: \\ 
+                Le capteur gauche détecte une ligne. Le robot continue d'avancer tout en tournant vers la gauche (il a une trajectoire de courbe). Dès lors, le capteur arrière va perdre le contact d'une ligne. Lorsque le capteur arrière détecte une nouvelle ligne, c'est qu'il s'agit de la ligne détectée par le capteur gauche. Alors, le robot s'arrête et effectue une rotation vers la gauche jusqu'à ce que le capteur avant central détecte cette ligne. Cela signifie alors que le robot s'est remis droit. \\ L'avantage de cette méthode est que le robot continue d'avancer lors de la détection d'une ligne donc lorsqu'il va s'arrêter pour pivoter, la rotation sera inférieure à 45° donc plus rapide qu'une rotation à 90°, ce qui permet un gain de temps. \\ 
+
+

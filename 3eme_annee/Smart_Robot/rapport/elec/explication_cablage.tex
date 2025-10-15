@@ -1,0 +1,82 @@
+\newpage
+\section{Explication du câblage}
+ 
+La batterie est reliée à la carte Raspberry pour l'alimenter en électricité, ce qui permet à celle-ci d'exécuter le programme permettant le déplacement du robot.
+De plus, la carte Raspberry est reliée, via les GPIOs, aux différents composants afin de recevoir ou d'émettre des signaux.
+
+Il y a 2 circuits éléctroniques dans le robot:
+\begin{itemize}
+        \item le circuit batterie, carte Raspberry et composants.
+        \item le circuit piles, carte moteur et moteurs.
+\end{itemize}
+\subsection{Explication des différents GPIO utilisés}
+        \subsubsection{La carte moteur}
+        Dans cette partie, le numéro du GPIO sera celui indiqué sur la carte Raspberry. Le second numéro correspond à celui indiqué sur le composant en question. 
+	        \begin{itemize}
+                \item $\bullet$ \textbf{GPIO n°19} relié à \textbf{EN1} pour indiquer ou non l'activation du moteur 1.
+                \item $\bullet$ \textbf{GPIO n°12} relié à \textbf{EN2} pour indiquer ou non l'activation du moteur 2.
+                \item $\bullet$ \textbf{GPIO n°39} relié à \textbf{GRD} pour avoir une masse commune.
+                \item $\bullet$ \textbf{GPIO n°2} relié à \textbf{VCC} pour alimenter la carte en énergie (tension de +5V).
+                \item $\bullet$ \textbf{GPIO n°17 - n°4} (17 pour avancer, 4 pour reculer) pour définir le sens de rotation du moteur 1.
+                \item $\bullet$ \textbf{GPIO n°27 - n°9} (27 pour avancer, 9 pour reculer) pour définir le sens de rotation du moteur 2.
+                \end{itemize}
+        \subsubsection{L'écran LCD}
+                \begin{itemize}
+                \item $\bullet$ \textbf{GPIO n°3} relié à \textbf{SDA} pour la communication entre les 2 éléments (I2C).
+                \item $\bullet$ \textbf{GPIO n°5} relié à \textbf{SCL} pour la communication entre les 2 éléments (I2C).
+                \item $\bullet$ \textbf{GPIO n°39} relié à \textbf{GND} pour avoir une masse commune.
+                \item $\bullet$ \textbf{GPIO n°2} relié à \textbf{VCC} pour alimenter en électricité l'écran et la carte LCD.
+                \end{itemize}
+        \subsubsection{Le capteur à Ultrason}
+                \begin{itemize}
+                \item $\bullet$ \textbf{GPIO n°39} relié à \textbf{GND} pour avoir une masse commune.
+                \item $\bullet$ \textbf{GPIO n°2} relié à \textbf{VCC} pour alimenter la carte en électricité (+3.3V).
+                \item $\bullet$ \textbf{GPIO n°24} relié à \textbf{Trig/Tx} pour .
+                \item $\bullet$ \textbf{GPIO n°23} relié à \textbf{Echo/Rx} pour .
+                \item $\bullet$ \textbf{GPIO n°39} relié à \textbf{GND}.
+                \end{itemize}
+
+        \subsubsection{Les capteurs de lignes}
+                \begin{itemize}
+                \item $\bullet$ \textbf{GPIO n°5-n°13-n°26-n°6} (capteur Avant, capteur Droite, capteur Gauche, capteur Arrière) relié à \textbf{GND}.
+                \item $\bullet$ \textbf{GPIO n°39} relié à \textbf{GND}.
+                \item $\bullet$ \textbf{GPIO n°2} relié à \textbf{VCC}.
+
+                \item $\bullet$ \textbf{GPIO n°20} relié à \textbf{+}.
+                \item $\bullet$ \textbf{GPIO n°39} relié à \textbf{-}.
+
+                \end{itemize}
+        \vspace{5mm}
+
+        \vspace{5mm}
+\subsection{Explication du branchement de la LED, du bouton, de l'écran LCD}
+
+        La \textbf{LED} est branchée au circuit des piles et des moteurs, en parallèle. C'est une LED avec résistance directement intégrée, sans danger pour le circuit électronique. 
+        \textbf{Un bouton} (on/off) a été rajouté entre les piles et le moteur pour permettre la désactivation des moteurs et éviter le déchargement des piles lorsque le robot n'est pas en fonctionnement.
+        \textbf{L'écran LCD} est relié à la carte LCD qui permet de la contrôler.
+        \textbf{Les moteurs} sont reliées à la carte moteur.
+
+\subsection{Réalisation du bilan énergétique du robot}
+
+        Selon la documentation de la carte Raspberry, nous savons que chaque GPIO peut délivrer jusqu'à \textbf{3mA} et \textbf{3.3V}. Au total on ne doit pas dépasser \textbf{120 mA} sur l'ensemble des GPIO. On a donc une puissance max de sortie côté GPIO de \textbf{396mW}.\\
+        Détail de la consommation énergétique en prenant le pire des cas : chaque capteur est alimenté et transmet des données (carte moteur comprise même si les moteurs ne sont pas en fonctionnement).
+        On utilise la formule \\  \textbf{P = U $\times$ I} afin de déterminer la puissance totale de chaque composant
+
+        \subsubsection{Sur le circuit Raspberry -- composants}
+        \begin{itemize}
+                \item $\bullet$ \textbf{Les capteurs} ont besoin de \textbf{3.3 volts et 2.1 mA} pour fonctionner soit \textbf{ P = 2,1 $\times$ 3.3 $\times$ 4 = 27,72 mW} 
+                \item $\bullet$ \textbf{La carte moteur} utilise pour fonctionner une puissance de \textbf{ P = 5 $\times$ 16 = 80mW} (on néglige la liaison sur les pins PWM qui fonctionnent en micro ampère donc ont une puissance négligeable)
+                \item $\bullet$ \textbf{Le buzzer} a besoin de \textbf{3.3 volts et 10 mA} pour fonctionner soit \textbf{ P = 33 mW} 
+                \item $\bullet$ \textbf{L'écran LCD } a besoin de \textbf{5 volts et 1.1 mA} pour fonctionner soit \textbf{ P = 5.5 mW}
+                \item $\bullet$ \textbf{Le capteur à ultrason } a besoin de \textbf{5 volts et 2 mA} pour fonctionner soit \textbf{ P = 10 mW}
+                
+        \end{itemize}
+        On a donc une puissance totale de \textbf{P = 27,72 + 80 + 33 + 5.5 + 10 = 156.22mW} au niveau des pins GPIO. Cette puissance étant inférieure au seuil de la carte Raspberry, les composants fonctionneront normalement.
+        \subsubsection{Sur le circuit piles -- moteur}
+        \begin{itemize}
+                \item $\bullet$ \textbf{La carte moteur} utilise pour fonctionner une puissance de \textbf{ P = 1.6 W}
+                \item $\bullet$ \textbf{La LED avec résistance intégrée } utilise une puissance de \textbf{ P = 10 mW } cette puissance bien inférieure aux autres puissances sera négligée (le constructeur sur le site en annexe n'a pas fourni d'informations supplémentaires à ce sujet)
+                \item $\bullet$ \textbf{Les moteurs } sont alimentés par \textbf{7.4 volts (3.7 $\times$ 2) et 150 mA} donc utilisent une puissance de \textbf{ P = 3.6W }
+        \end{itemize}
+        
+        On a donc une puissance totale de \textbf{P = 3.6 + 1.6 = 5.2W} au niveau des piles pour alimenter le moteur. 

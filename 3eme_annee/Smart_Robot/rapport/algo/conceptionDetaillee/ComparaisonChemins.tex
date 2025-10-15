@@ -1,0 +1,25 @@
+\newcommand{\pourDans}[2]{\textbf{pour} #1 \textbf{dans} #2 \textbf{faire}}
+
+\begin{algorithme}
+    \fonction{ComparaisonChemins}
+        {lesPiles : Ensemble<Pile<noeud>>}
+        {Pile<noeud>}
+        {PlusCourtCheminDeSortie : \naturel , \\pileDuPlusCourtChemin : Pile<noeud>}
+        {   
+            \affecter{PlusCourtCheminDeSortie}{1000}
+            \affecter{pileDuPlusCourtChemin}{Pile()}
+            
+            \pourDans{pile}{lesPiles}
+                {
+                    \affecter{longeurDeLaPile}{longueur(pile)}
+                    
+                    \sialors{longeurDeLaPile $<$ PlusCourtCheminDeSortie}
+                        {
+                            \affecter{PlusCourtCheminDeSortie}{longeurDeLaPile}
+                            \affecter{pileDuPlusCourtChemin}{pile}
+                        }
+                }
+            \retourner {pileDuPlusCourtChemin}
+        }           
+
+\end{algorithme}

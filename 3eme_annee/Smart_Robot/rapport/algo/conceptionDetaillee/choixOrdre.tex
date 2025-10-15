@@ -1,0 +1,87 @@
+\begin{algorithme}
+\procedure{choixOrdre}
+	{\paramEntreeSortie{ordres : Liste<Ordre>, iEcriture : \\\naturelNonNul}, 
+   \paramEntree{l : \Labyrinthe, directionCasePrecedente, \\directionCaseActuelle : Direction, 
+   caseActuelle : \naturelNonNul}}
+  {o : Ordre, directionsPossibles : Ensemble<Direction>, \\
+   d : Direction, estIntersection : \booleen}
+  {
+    \sialorssinon{directionCasePrecedente = directionCaseActuelle}{
+      \affecter{directionsPossibles}{obtenirDirectionsPossibles(l, caseActuelle)} \\
+      \affecter{estIntersection}{Faux} \\
+      \pourChaque{d}{directionsPossibles}{
+        \cas{directionCaseActuelle}{
+          \casclausegenerale{H}{
+            \sialors{non(d = H ou d = B)}{
+              \affecter{estIntersection}{Vrai}
+            }
+          }
+          \casclausegenerale{B}{
+            \sialors{non(d = H ou d = B)}{
+              \affecter{estIntersection}{Vrai}
+            }
+          }
+          \casclausegenerale{G}{
+            \sialors{non(d = G ou d = D)}{
+              \affecter{estIntersection}{Vrai}
+            }
+          }
+          \casclausegenerale{D}{
+            \sialors{non(d = G ou d = D)}{
+              \affecter{estIntersection}{Vrai}
+            }
+          }
+        }
+      }
+      
+      \sialors{estIntersection}{
+        \instruction{inserer(ordres, AV, iEcriture)} \\
+        \affecter{iEcriture}{iEcriture + 1}
+      }
+    }
+    {
+      \cas{directionCasePrecedente}{
+        \casclausegenerale{H}{
+          \sialorssinon{directionCaseActuelle = G}{
+            \affecter{o}{TG}
+          }
+          {
+            \affecter{o}{TD}
+          }
+        }
+        \casclausegenerale{B}{
+          \sialorssinon{directionCaseActuelle = D}{
+            \affecter{o}{TG}
+          }
+          {
+            \affecter{o}{TD}
+          }
+        }
+        \casclausegenerale{G}{
+          \sialorssinon{directionCaseActuelle = B}{
+            \affecter{o}{TG}
+          }
+          {
+            \affecter{o}{TD}
+          }
+        }
+        \casclausegenerale{D}{
+          \sialorssinon{directionCaseActuelle = H}{
+            \affecter{o}{TG}
+          }
+          {
+            \affecter{o}{TD}
+          }
+        }
+      }
+      \instruction{inserer(ordres, o, iEcriture)} \\
+      \affecter{iEcriture}{iEcriture + 1} \\
+      \instruction{inserer(ordres, AV, iEcriture)} \\
+      \affecter{iEcriture}{iEcriture + 1}
+    }
+  }
+\end{algorithme}
+
+
+
+

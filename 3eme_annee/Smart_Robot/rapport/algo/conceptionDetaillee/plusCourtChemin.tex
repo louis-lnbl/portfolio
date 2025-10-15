@@ -1,0 +1,17 @@
+\begin{algorithme}
+	\fonction{trouverPlusCourtChemin}{labyrinthe : Labyrinthe}{Pile<{\naturelNonNul}>}
+        {cheminCourant : Pile<{\naturelNonNul}>, 
+           premiereCase : \naturelNonNul, 
+           cheminsPossibles : Ensemble<Pile<{\naturelNonNul}> >, 
+           cheminLePlusCourt : Pile<{\naturelNonNul}>}
+        {
+           \affecter{cheminCourant}{pile()}
+           \affecter{premiereCase}{caseEntree(labyrinthe)}
+           \affecter{cheminCourant}{empiler(cheminCourant, premiereCase)}
+           \affecter{cheminsPossibles}{ensemble()}
+           \instruction {trouverlesChemins{labyrinthe, cheminCourant, cheminsPossibles}}
+           \affecter{cheminLePlusCourt}{comparaisonChemins(cheminsPossibles)}
+           
+           \retourner{cheminLePlusCourt}
+        }
+\end{algorithme}

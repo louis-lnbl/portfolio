@@ -1,0 +1,15 @@
+\begin{algorithme}
+    \fonction{analyseFichier}{fichier : fichier.txt}{\nnn,\nnn,\\
+    \nnn,Liste<ChaineDeCaracteres>}
+        {taille : \nnn, entree : \nnn,\\
+        sortie : \nnn, passages : Liste<ChaineDeCaracteres>}
+        {
+           \affecter{taille}{LireLigne(fichier)}
+           \affecter{entree}{LireLigne(fichier)}
+           \affecter{sortie}{LireLigne(fichier)}
+           \tantque{non{fichier.estFinDeFichier()}}{
+           	\instruction{Liste.inserer(passages,LireLigne(fichier))}
+           }
+           \retourner{taille, entree, sortie, passages}
+        }
+\end{algorithme}

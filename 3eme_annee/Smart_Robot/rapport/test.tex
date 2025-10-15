@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage{algorithmeUTF8}
+
+\begin{document}
+
+\begin{tad}
+    \tadNom{Labyrinthe}
+    \tadDependances{\naturelNonNul, Direction, Ensemble}\\
+    \begin{tadOperations}
+        \tadOperationAvecPreconditions
+            {labyrinthe}
+            {\tadTroisParams{\naturelNonNul}{\naturelNonNul}{\naturelNonNul}}
+            {\Labyrinthe}
+    \end{tadOperations}
+\end{tad}
+
+\end{document}
+

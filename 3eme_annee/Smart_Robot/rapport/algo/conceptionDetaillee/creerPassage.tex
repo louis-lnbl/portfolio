@@ -1,0 +1,13 @@
+\begin{algorithme}
+\procedure
+    {creerPassage}
+    {\paramEntreeSortie{laby : Labyrinthe} \paramEntree{case1, case2 : \naturelNonNul}}
+    {}
+    {
+        \sialors{EstCaseAccessible(Laby, case1, case2)}
+        {
+            \instruction{casserMur(Laby, case1, case2)}
+        }
+    }
+\end{algorithme}
+

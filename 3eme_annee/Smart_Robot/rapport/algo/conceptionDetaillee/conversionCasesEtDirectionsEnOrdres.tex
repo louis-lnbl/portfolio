@@ -1,0 +1,24 @@
+\begin{algorithme}
+	\fonction{conversionCasesEtDirectionsEnOrdres}{laby : Labyrinthe, \\casesDirections : 		Liste<caseEtDirection>}{Liste<Ordre>}
+	{ordres : Liste<Ordre>, directionCaseActuelle,\\
+	directionCasePrecedente,\\
+	porteEntree, porteSortie : Direction,\\
+    	caseActuelle, iLecture, iEcriture : \naturelNonNul}{
+    	
+	\affecter{ordres}{listeVide()}
+	\affecter{iEcriture}{1}
+	\affecter{iLecture}{1}
+	\instruction{inserer(ordres, AV, iEcriture)}
+	\instruction{directionEntreeEtSortie(laby, porteEntree, porteSortie)}
+	\affecter{directionCasePrecedente}{positionPorteEnDirection(porteEntree)}    
+	\tantque{non estVide(casesDirections)}{
+	
+	\affecter{directionCaseActuelle}{obtenirDirection(obtenirElement(casesDirections, iLecture))}
+	\affecter{caseActuelle}{obtenirCase(obtenirElement(casesDirections, iLecture))}
+	\affecter{iLecture}{iLecture + 1}
+	\instruction{choixOrdre(ordres, iEcriture, laby, directionCasePrecedente,\\ directionCaseActuelle, caseActuelle)}
+	\affecter{directionCasePrecedente}{directionCaseActuelle}
+	}
+	\retourner{ordres}
+	}
+\end{algorithme}

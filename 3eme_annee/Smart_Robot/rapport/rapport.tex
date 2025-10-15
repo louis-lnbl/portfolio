@@ -1,0 +1,100 @@
+\documentclass[a4paper, 11pt]{report}
+\usepackage{algorithmeUTF8}
+\usepackage{changepage}
+\usepackage{etoolbox}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{pdfpages}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\begin{document}
+
+% configuration du pied de page
+\pagestyle{fancy}
+\fancyhf{} % efface le style par défaut
+
+\fancyhead{} 
+\renewcommand{\headrulewidth}{0pt} 
+
+% ajout du logo insa (en bas à droite)
+\fancyfoot[R]{\includegraphics[width=1.5cm]{imagesRapport/logoInsaRouen.jpg}} 
+% ajout du numéro de page (en bas au centre)
+\fancyfoot[C]{\thepage}
+
+\setlength{\footskip}{20pt}
+
+% correction du style de page des chapitres pour appliquer correctement le pied de page à chacun
+\makeatletter
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+\makeatother
+
+% modifie le package hyperref pour eviter les cadre de couleurs autours des hyperliens 
+\hypersetup{pdfborder=0 0 0}
+
+% page de garde
+\begin{titlepage}
+
+    \centering
+    \includegraphics[scale=0.3]{imagesRapport/logoInsaRouen.jpg}~\\[0.1cm]
+    \textsc{\LARGE Institut National Des Sciences Appliquées}\\[0.1cm]
+    \textsc{\LARGE ROUEN NORMANDIE}\\[0.5cm]
+    \textsc{\Large Rapport de projet}\\[0.5cm]
+    
+    {\huge\bfseries Projet Integratif Smart Robot \par}
+    \vspace{0.5cm}
+   
+    Étudiants:\\
+    Yohann \textsc{Delaplace}\\
+    Louis \textsc{Lenoble}\\
+    Maël \textsc{Planchot}\\
+    Dylan \textsc{Sanson}\\
+    Nathan \textsc{Sourdrille}\\
+    \vspace{0.5cm}
+    
+    Professeurs référents:\\
+    $M^{me}$ \textsc{Laghmara}\\
+    $M^{r}$ \textsc{Delestre}
+    
+    \vspace{2cm}
+   
+    \includegraphics[width=0.5\textwidth]{imagesRapport/photoRobot.jpeg}\par
+
+\end{titlepage}
+
+\tableofcontents
+\pagestyle{fancy}
+
+% remerciements
+\input{remerciements/remerciements.tex}
+
+% introdution
+\input{introduction/introduction.tex} 
+
+% Partie életronique
+\input{elec/schema.tex}      
+\input{elec/explication_composant.tex}         
+\input{elec/explication_cablage.tex}   
+\input{elec/fonctionnement_robot.tex}
+
+% Partie algorithmique
+\include{algo/analyse/analyse}
+\input{algo/conceptionPreliminaire/conceptionPreliminaire.tex}
+\include{algo/conceptionDetaillee/conceptionDetaillee.tex}  
+\input{algo/codeC.tex}                
+
+% Conclusion
+\input{conclusion/conclusion.tex} 
+
+% Annexe
+\input{Annexe/annexe.tex}
+
+\end{document}
+

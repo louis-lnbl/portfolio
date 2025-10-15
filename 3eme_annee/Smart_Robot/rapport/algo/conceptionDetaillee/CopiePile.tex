@@ -1,0 +1,17 @@
+\begin{algorithme}
+	\fonction{CopiePile}
+	{pile : Pile<noeud>}
+	{Pile<noeud>}
+	{}
+	{
+        \affecter{pileCopie}{Pile()} 
+        
+        \tantque{non estVide(pile)}{
+		
+                \instruction{empiler(pileCopie , obtenirElement(pile))}
+                \instruction{dépiler(pile)}
+	}
+	
+        \retourner{pileCopie}
+	}         
+\end{algorithme}

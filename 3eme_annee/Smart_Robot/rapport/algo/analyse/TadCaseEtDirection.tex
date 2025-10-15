@@ -1,0 +1,29 @@
+\subsection{Case et direction}
+
+\begin{tad}
+	\tadNom{caseEtDirection}
+	\tadDependances{\naturelNonNul, Direction}
+    
+	\begin{tadOperations}{}
+        \tadOperation{creerCaseEtDirection}{\tadDeuxParams{\naturelNonNul}\\{Direction}}{\tadUnParam{caseEtDirection}}
+        \tadOperationAvecPreconditions{fixerCase}{\tadDeuxParams{caseEtDirection}\\{\naturelNonNul}}{\tadUnParam{caseEtDirection}}
+        \tadOperation{fixerDirection}{\tadDeuxParams{caseEtDirection}\\{Direction}}{\tadUnParam{caseEtDirection}}
+        \tadOperation{obtenirCase}{\tadUnParam{caseEtDirection}}{\tadUnParam{\naturelNonNul}}
+        \tadOperation{obtenirDirection}{\tadUnParam{caseEtDirection}}{\tadUnParam{Direction}}
+	\end{tadOperations}
+	
+	\begin{tadSemantiques}{}
+        \tadSemantique{creerCaseEtDirection}{L'opération qui permet de créer\\un objet de type caseEtDirection.}
+        \tadSemantique{fixerCase}{L'opération qui permet d'attribuer une case à un objet de type caseEtDirection.}
+        \tadSemantique{fixerDirection}{L'opération qui permet d'attribuer\\une direction à un objet de type caseEtDirection.}
+        \tadSemantique{obtenirCase}{L'opération qui permet de renvoyer la case\\associée à un objet de type caseEtDirection.}
+        \tadSemantique{obtenirDirection}{L'opération qui permet de renvoyer\\la direction associée à un objet de type caseEtDirection.}
+        \end{tadSemantiques}
+
+	\begin{tadPreconditions}{}
+        \tadPrecondition{fixerCase}{\(c \leq largeur(l)^2\)}
+	\end{tadPreconditions}
+
+\end{tad}
+
+ 

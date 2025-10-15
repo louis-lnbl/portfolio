@@ -1,0 +1,32 @@
+\begin{algorithme}
+    \fonction{CasesEstPresenteDansPile}
+    {pileCase : {Pile<noeud>}, pile : {Pile<noeud>}}
+    {\booleen}
+    {estPresent : \booleen , pileCaseTemp : {Pile<noeud>} , \\pileTemp : {Pile<noeud>}}
+    {
+        \affecter{estPresent}{Faux}
+        \tantque{non estVide(pile) ou (estPresent = Vrai)}
+            {
+                \sialorssinon{obtenirElement(pile) = obtenirElement(pileCase)}
+                    {   
+                        \affecter{pileCaseTemp}{CopiePile(pileCase)}
+                        \affecter{pileTemp}{CopiePile(pile)}
+                        
+                        \tantque{non estVide(pileCaseTemp) et \\(obtenirElement(pileTemp) = obtenirElement(pileCaseTemp))}
+                            {
+                                \instruction{dépiler(pileTemp)}
+                                \instruction{dépiler(pileCaseTemp)}
+                            }
+                        \sialors{estVide(pileCaseTemp)}
+                            {
+                                \affecter{estPresent}{Vrai}
+                            }                     
+                    }
+                    {
+                        \instruction{dépiler(pile)}
+                    }
+            }
+        \retourner{estPresent}
+    }         
+\end{algorithme}
+

@@ -1,0 +1,31 @@
+
+\begin{algorithme}
+	\procedure{trouverLesChemins}{
+        \paramEntree{labyrinthe : Labyrinthe}, 
+        \paramEntreeSortie{cheminCourant : Pile<{\naturelNonNul}>, 
+        cheminsPossibles : Ensemble<Pile<{\\\naturelNonNul}> >}
+        }
+        {
+           uneCase : \nnn
+        }
+        {
+           \sialors{non(estVide(cheminCourant))}{
+           
+              \sialorssinon{obtenirElement(cheminCourant) = caseSortie(labyrinthe)}{
+              
+                 \instruction {ajouter(cheminsPossibles, cheminCourant)}
+              }
+              {
+                 \pourChaque{uneCase}{casesAccessibles(obtenirElement(cheminCourant))}{
+                 
+                    \sialors{non(estPresent(cheminCourant, uneCase))}{
+                    
+                       \affecter{cheminCourant}{empiler(cheminCourant, uneCase)}
+                       \instruction {trouverPlusCourtCheminR(labyrinthe, cheminCourant,\\ cheminsPossibles)}
+                    }
+                 }
+              }
+              \affecter{cheminCourant}{depiler(cheminCourant)}
+           }
+        }
+\end{algorithme}

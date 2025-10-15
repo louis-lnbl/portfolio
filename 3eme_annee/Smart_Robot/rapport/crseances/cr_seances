@@ -1,0 +1,96 @@
+COMPTE-RENDU DE CHAQUE SEANCE.
+
+note: j'ai forcément oublié des éléments que vous avez réalisés durant la séance car je faisais autre chose, n'hésitez pas à me le dire.
+
+TP ELEC PROJET
+SEANCE 1 (16/10):
+
+ensemble du groupe: réflexion quant à la manière de construire le robot: placement des moteurs, des capteurs, distance entres les élements, nombre de capteurs ...
+réflexion également quant à la manière pour le robot de prendre les virages, avancer ... 
+solutions retenues:
+utilisation de 4 capteurs, 3 à l'avant (1 centré, 1 à gauche, 1 à droite), 1 à l'arrière (centré avec celui à l'avant)
+l'objectif pour le robot est de sortir de labyrinthe mais LE PLUS VITE POSSIBLE.
+Ainsi, pour optimiser le parcours du labyrinthe, le robot ne va pas prendre les virages en s'orientent de 90° à chaque intersection mais il va effectuer une courbe, comme ça il continue à avancer et tourne en même temps. Finalement, on devra effectuer une simple rotation d'un angle au moins inférieur à 45°, à une distance déjà assez avancé sur la voie de gauche par exemple. Comment on fait ? le robot détecte un virage à gauche par exemple, le robot continue d'avancer mais tourne en courbe en même temps pour effectuer un virage. Donc le capteur arrière va arrêter de détecter la ligne sur laquelle il était jusqu'alors, et dès que le capteur arrière détecte à nouveau une ligne, il s'agirait donc de la ligne de gauche. Le robot sera "de travers", il s'arrête et effectue une rotation inférieur à 45° pour se recentrer sur la voie de gaucihe. Puis il avance, le virage est terminé. Si lors des tests on se rend compte que dans certaines situations cette méthode est impossible, on en reviendra à une méthode élémentaire qui consiste à avancer sur la ligne jusqu'à un certain moment ou on effectue une rotation de 90° à gauche, donc on se centre sur la ligne de gauche, et on avance. schéma du câblage.
+
+SEANCE 2 (06/11):
+
+Louis: Organisation et branchement sur la carte Raspberry, à l'exception des moteurs. push du fritzing. 
+
+Yohann/Maël: découpage d'un modèle de flamme imprimé, collage sur le robot. Perçcage. Peinture des murs du robot en bleu et rouge.
+
+Nathan/Dylan: Clonage du git sur la cart, séparation des fichiers et dossiers. écriture algorithme pour les déplacement du robot (fichier parcours_laby.c). On s'est rendu compte de la redondance de certaine partie de l'analyse descendante --> modification de l'analyse descendante et rassement de fonctions en une seule pour simplifier et éviter la redondance, en utilisant des conditions simples (suppression de RotationGauche et rotationDroite pour tout mettre dans rotation, pareil pour virage, etc ..). implémentation de l'arrêt d'urgence (vitesse des moteurs à 0 et on éteint les moteurs).
+détail du fonctionnement du robot:
+
+- se remettre droit: le capteur de gauche ou dr droite détecte une ligne, le capteur du côté opposé et le capteur du milieu ne détectent rien.
+- virage à gauche: le capteur du milieu et le capteur de gauche détectent une ligne
+- virage à droite: le capteur du milieu et le capteur de droite détectent une ligne
+- avancer: on veut toujours avancer mais pas à une vitesse énormément élevé pour ne pas avoir à se stopper toutes les 2secondes et donc se recentrer (perte de temps). Car l'objectif est d'être rapide et s'arrêter le moins possible car on veut sortir du labyrinthe le plus vite possible!
+- gestion de la sortie du labyrinthe: la dernière instruction sera avancé donc dès qu'aucun des 4 capteurs ne détectent de ligne, cela signifie qu'on est sorti du labyrinthe --> appel de setupMoteur pour mettre avancerMoteur à 0 et éteindre les moteurs.
+
+Vérification du fonctionnement des moteurs et des roues. Impression des motifs du robot.
+
+SEANCE 3 (20/11):
+
+Louis/Yohann: branchement des moteurs, montage du robot (fixation des éléments, soudures ...)
+Dylan/Nathan/Maël: écriture de code C du robot (notamment moteurs, l'écran LCD, signal sonore, buzzer) discussion à propos de l'arrêt d'urgence en virage.
+à faire avant SEANCE 4: faire en sorte que tout fonctionne, compiler et parcours labyrinthe avec les threads. 
+
+SEANCE 4 (04/11):
+
+vérifier les fonctions
+prévu: tests sur le robot 
+
+TD ALGO PROJET
+SEANCE 1 (22/10):
+
+objectif: 
+Mise en place du projet gitlab et spécification du TAB Labyrinthe
+
+travail réalisé:
+ensemble du groupe: FAIT avant la seance 2
+
+SEANCE 2 (5/11):
+
+objectif: 
+Analyse descendante des opérations suivantes:
+- chemins: Labyrinthe --> Liste<NaturelNonNul>
+- ordresRobot : Liste<NaturelNonNul> --> Liste<Ordre>
+
+travail réalisé:
+ensemble du groupe: FAIT avant la seance 3
+
+SEANCE 3 (13/11):
+
+objectif: 
+conception préliminaire + conception détaillée
+
+travail réalisé:
+FAIT avant la seance 4:
+Louis : CP + CD Trouver Plus court chemin / Ecrire le TAD Noeud dans le latex TAD
+Dylan/Nathan : CP + CD ConversionNoeudsEnOrdres
+Mael : CP + CD AnalyserFichier / Macros
+Yohann : CP + CD CreerPassage
+
+SEANCE 4 (19/11):
+
+objectif: 
+développement des .h, des .c vide et des tests unitaires
+
+travail réalisé:
+ensemble du groupe: explication claire de l'analyse descendente afin de s'assurer que tout le monde est en accord et à bien compris les principes des algorithmes à implémenter.
+s'accorder sur la manière de coder (nommage des fonctions, placement des accolades ...)
+Yohann/Maël: Mise en ordre du latex : syntaxe, liens, corrections de petites erreures ...
+Louis/Dylan/Nathan: Discussion sur le TAD Noeud: suppression. modifications nécessaires faîtes. Discussions sur les algos, types et TAD à modifier/supprimer
+organisation des libraires et du code: création des fichiers .h et .c, prêts pour la phase de développement. 
+
+SEANCE 5 (26/11):
+
+objectif:
+développement des .c
+travail réalisé:
+
+SEANCE 6(03/12):
+
+objectif:
+
+travail réalisé:

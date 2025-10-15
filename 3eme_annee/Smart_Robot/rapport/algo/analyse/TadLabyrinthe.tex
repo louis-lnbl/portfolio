@@ -1,0 +1,48 @@
+\subsection{Labyrinthe}
+
+\begin{tad}
+	\tadNom{Labyrinthe}
+	\tadDependances{\naturelNonNul, Direction, Ensemble}
+    
+	\begin{tadOperations}{}
+        \tadOperationAvecPreconditions{labyrinthe}{\tadTroisParams{\naturelNonNul}{\naturelNonNul}\\{\naturelNonNul}}{\tadUnParam{\Labyrinthe}}
+        \tadOperationAvecPreconditions{casserMur}{\tadTroisParams{\Labyrinthe}{\naturelNonNul}\\{\naturelNonNul}}{\tadUnParam{\Labyrinthe}}
+        \tadOperation{largeur}{\tadUnParam{\Labyrinthe}}{\tadUnParam{\naturelNonNul}}
+        \tadOperation{caseDEntree}{\tadUnParam{\Labyrinthe}}{\tadUnParam{\naturelNonNul}}
+        \tadOperation{caseDeSortie}{\tadUnParam{\Labyrinthe}}{\tadUnParam{\naturelNonNul}}
+        \tadOperation{directionsPossible}{\tadDeuxParams{\Labyrinthe}\\{\naturelNonNul}}{\tadUnParam{Ensemble<Direction>}}
+        \tadOperationAvecPreconditions{caseDestination}{\tadTroisParams{\Labyrinthe}{\naturelNonNul}\\{Direction}}{\tadUnParam{\naturelNonNul}}
+        \tadOperationAvecPreconditions{casesAdjacentes}{\tadDeuxParams{\Labyrinthe}\\{\naturelNonNul}}{\tadUnParam{Ensemble<\naturelNonNul>}}
+        \tadOperationAvecPreconditions{casesAccessibles}{\tadDeuxParams{\Labyrinthe}\\{\naturelNonNul}}{\tadUnParam{Ensemble<\naturelNonNul>}}
+        \tadOperationAvecPreconditions{casesNonAccessibles}{\tadDeuxParams{\Labyrinthe}\\{\naturelNonNul}}{\tadUnParam{Ensemble<\naturelNonNul>}}
+        \tadOperation{directionEntreeEtSortie}{\tadUnParam{\Labyrinthe}}{\tadDeuxParams{Direction}\\{Direction}}
+	\end{tadOperations}
+
+	\begin{tadSemantiques}{}
+        \tadSemantique{labyrinthe}{L'opération qui permet de créer un labyrinthe muré de taille \(n^2\).}
+        \tadSemantique{casserMur}{L'opération qui permet de créer un accès d'une case à une autre.}
+        \tadSemantique{largeur}{L'opération qui permet de renvoyer la largeur n d'un labyrinthe.}
+        \tadSemantique{caseDEntree}{L'operation qui permet de renvoyer la case d'entrée du labyrinthe.}
+        \tadSemantique{caseDeSortie}{L'opération qui permet de renvoyer la case de sortie du labyrinthe.}
+        \tadSemantique{directionsPossible}{L'opération qui permet de renvoyer les directions
+        possibles depuis une case.}
+        \tadSemantique{caseDestination}{L'opération qui permet de renvoyer la case d'arrivée après l'emprunt de la direction depuis la case précédente.}
+        \tadSemantique{casesAdjacentes}{L'opération qui permet de renvoyer les cases adjacentes à une case.}
+        \tadSemantique{casesAccessibles}{L'opération qui permet de renvoyer les cases accessibles depuis une case.}
+        \tadSemantique{casesNonAccessibles}{L'opération qui permet de renvoyer les cases non accessibles depuis une case.}
+        \tadSemantique{directionEntreeEtSortie}{L'opération qui permet de renvoyer les directions des portes d'entrée et de sortie du labyrinthe.}
+        \end{tadSemantiques}
+
+	\begin{tadPreconditions}{}
+        \tadPrecondition{labyrinthe}{entree \(\neq\) sortie,\\ \(entree \in [|1,n|] \cup [|n^2-n,n^2|] \cup \{k \in [|1,n|] \mid k \times n\} \cup \{k \in [|1,n|] \mid k \times n + 1\}\)\\
+        \(sortie \in [|1,n|] \cup [|n^2-n,n^2|] \cup \{k \in [|1,n|] \mid k \times n\} \cup \{k \in [|1,n|] \mid k \times n + 1\}\)}
+        \tadPrecondition{casserMur}{c1 \(\neq\) c2, \(c1 \leq largeur(l)^2\) et \(c2 \leq largeur(l)^2\)}
+        \tadPrecondition{caseDestination}{\texttt{estPresent(directionsPossible(l,c),d)}}
+        \tadPrecondition{casesAdjacentes}{\(c \leq largeur(l)^2\)}
+        \tadPrecondition{casesAccessibles}{\(c \leq largeur(l)^2\)}
+        \tadPrecondition{casesNonAccessibles}{\(c \leq largeur(l)^2\)}
+	\end{tadPreconditions}
+	
+\end{tad}
+
+
