@@ -1,11 +1,11 @@
-#Travaux de Première Année de Spécialisation en Informatique
+# Travaux de Première Année de Spécialisation en Informatique
 
 Retrouvez ici l’ensemble des projets réalisés au cours de ma première année de spécialisation en informatique.  
 Ces travaux reflètent à la fois l’apprentissage de nouveaux langages, la maîtrise d’outils professionnels, ainsi que la mise en pratique de notions théoriques.
 
 ---
 
-##Ces projets avaient pour but de :
+## Ces projets avaient pour but de :
 
 -  **Développer mes compétences en programmation**, à travers l’apprentissage et la pratique de plusieurs langages :
   - C  
@@ -23,7 +23,7 @@ Ces travaux reflètent à la fois l’apprentissage de nouveaux langages, la ma�
 
 ---
 
-##Sommaire
+## Sommaire
 
 - [`/Projet_C`](./Projet_C) — Introduction à la programmation en C  
 - [`/Projet_Python`](./Projet_Python) — Manipulation de données et algorithmique  
