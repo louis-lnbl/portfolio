@@ -20,7 +20,7 @@ Ces travaux ont pour objectif d'utiliser le socle de connaissance que j'ai pu ac
 
 ## Sommaire
 
-- [`/Jeu_de_société_du_futur`](./Jeu_de_société_du_futur) — Application web utilisant la caméra du téléphone pour appliquer un traitement d'image et ainsi pouvoir jouer à un jeu de société.   
+- [`/Jeu_de_societe_du_futur`](./Jeu_de_societe_du_futur) — Application web utilisant la caméra du téléphone pour appliquer un traitement d'image et ainsi pouvoir jouer à un jeu de société.   
 - [`/Probleme_de_livraison`](./Probleme_de_livraison) — Recherche du plus court chemin pour livrer de la marchandise avec la formalisation du problème et le chemin de penser.  
 - [`/SIFT`](./SIFT) — Traitement d'image - utilisation et présentation de la méthode SIFT.
   
