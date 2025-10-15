@@ -1,4 +1,4 @@
-# Travaux de Première Année de Spécialisation en Informatique
+# Travaux de Deuxième Année de Spécialisation en Informatique
 
 Retrouvez ici l’ensemble des projets réalisés au cours de ma seconde année de spécialisation en informatique.  
 Ces travaux ont pour objectif d'utiliser le socle de connaissance que j'ai pu acquérir durant mon cusrsus pour aller plus loin et découvrir de nouveaux outils ou encore nouvelles technologies et méthodes.  
